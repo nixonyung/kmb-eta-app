@@ -11,8 +11,10 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
   const {width, height} = Dimensions.get('window');
   const {isSuccess, stopNameToEtaList} = useStopNameToEtaList(route.params);
 
-  const {routeToFavoritestopIndices, addFavoritestopIndexToRoute, removeFavoritestopIndexToRoute} =
-    useStore();
+  const routeToFavoritestopIndices = useStore(store => store.routeToFavoritestopIndices, _.isEqual);
+  const addFavoritestopIndexToRoute = useStore(store => store.addFavoritestopIndexToRoute);
+  const removeFavoritestopIndexToRoute = useStore(store => store.removeFavoritestopIndexToRoute);
+
   const FavoritestopIndices = routeToFavoritestopIndices.get(route.params);
 
   return (

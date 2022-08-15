@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import create from 'zustand';
 
 export interface Route {
@@ -29,27 +30,26 @@ const useStore = create<StoreState>()(set => ({
 
   routeToFavoritestopIndices: new Map(),
 
-  addFavoritestopIndexToRoute: (index, route) => {
+  addFavoritestopIndexToRoute: (index, route) =>
     set(state => {
-      const favoritestopIndicesOfRoute = state.routeToFavoritestopIndices.get(route) ?? [];
+      const currentIndices = state.routeToFavoritestopIndices.get(route) ?? [];
 
       return {
-        routeToFavoritestopIndices: state.routeToFavoritestopIndices.set(route, [
-          ...new Set([...favoritestopIndicesOfRoute, index]),
+        routeToFavoritestopIndices: _.cloneDeep(state.routeToFavoritestopIndices).set(route, [
+          ...new Set([...currentIndices, index]),
         ]),
       };
-    });
-  },
+    }),
 
   removeFavoritestopIndexToRoute: (index, route) =>
     set(state => {
-      const favoritestopIndicesOfRoute = state.routeToFavoritestopIndices.get(route);
+      const currentIndices = state.routeToFavoritestopIndices.get(route);
 
-      if (favoritestopIndicesOfRoute !== undefined) {
+      if (currentIndices !== undefined) {
         return {
-          routeToFavoritestopIndices: state.routeToFavoritestopIndices.set(
+          routeToFavoritestopIndices: _.cloneDeep(state.routeToFavoritestopIndices).set(
             route,
-            favoritestopIndicesOfRoute.filter(_index => _index !== index)
+            currentIndices.filter(_index => _index !== index)
           ),
         };
       } else {
