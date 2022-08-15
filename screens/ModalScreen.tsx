@@ -1,13 +1,22 @@
+import {FontAwesome} from '@expo/vector-icons';
 import _ from 'lodash';
-import {Dimensions, Pressable, StyleSheet, Text} from 'react-native';
+import {Dimensions, Pressable, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import {View} from '../components/Themed';
 import useStopNameToEtaList from '../hooks/useStopNameToEtaList';
+import useStore from '../hooks/useStore';
 import {RootStackScreenProps} from '../navigation/types';
 
 export default function ModalScreen({route, navigation}: RootStackScreenProps<'Modal'>) {
   const {width, height} = Dimensions.get('window');
   const {isSuccess, stopNameToEtaList} = useStopNameToEtaList(route.params);
+
+  const {
+    routeToFavouriteStopIndices,
+    addFavouriteStopIndexToRoute,
+    removeFavouriteStopIndexToRoute,
+  } = useStore();
+  const FavouriteStopIndices = routeToFavouriteStopIndices.get(route.params);
 
   return (
     <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
@@ -59,29 +68,63 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
                 style={{
                   height: '100%',
 
+                  flexDirection: 'row',
                   paddingVertical: 5,
-                  paddingHorizontal: 20,
+                  paddingLeft: 20,
                   borderWidth: 1,
                   borderColor: '#00000066',
                   backgroundColor: '#c1d8fc',
                 }}
               >
-                <Text style={{fontSize: 18}}>
-                  {index + 1}. {item.name_tc}
-                </Text>
+                <View style={{backgroundColor: 'transparent'}}>
+                  <Text style={{fontSize: 18}}>
+                    {index + 1}. {item.name_tc}
+                  </Text>
 
-                {_.isEmpty(item.eta) ? (
-                  <Text style={{marginTop: 10, marginLeft: 30, fontSize: 18}}>暫沒有班次</Text>
-                ) : (
-                  item.eta.map((etaText, index) => (
-                    <Text
-                      style={{marginLeft: 30, color: etaText[0] === '-' ? '#ff2222' : 'black'}}
-                      key={index}
-                    >
-                      {etaText}
-                    </Text>
-                  ))
-                )}
+                  {_.isEmpty(item.eta) ? (
+                    <Text style={{marginTop: 10, marginLeft: 30, fontSize: 18}}>暫沒有班次</Text>
+                  ) : (
+                    item.eta.map((etaText, index) => (
+                      <Text
+                        style={{marginLeft: 30, color: etaText[0] === '-' ? '#ff2222' : 'black'}}
+                        key={index}
+                      >
+                        {etaText}
+                      </Text>
+                    ))
+                  )}
+                </View>
+                <View style={{flex: 1, backgroundColor: 'transparent'}} />
+                <View
+                  style={{
+                    height: '100%',
+                    backgroundColor: 'transparent',
+                  }}
+                >
+                  <TouchableOpacity
+                    style={{flex: 1, paddingHorizontal: 30, justifyContent: 'center'}}
+                  >
+                    {FavouriteStopIndices?.includes(index) ? (
+                      <FontAwesome
+                        size={30}
+                        name="star"
+                        color="#ffff00"
+                        onPress={() => {
+                          removeFavouriteStopIndexToRoute(index, route.params);
+                        }}
+                      />
+                    ) : (
+                      <FontAwesome
+                        size={30}
+                        name="star-o"
+                        color="#aaaaaa66"
+                        onPress={() => {
+                          addFavouriteStopIndexToRoute(index, route.params);
+                        }}
+                      />
+                    )}
+                  </TouchableOpacity>
+                </View>
               </View>
             )}
           />
