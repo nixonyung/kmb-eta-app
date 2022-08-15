@@ -11,12 +11,9 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
   const {width, height} = Dimensions.get('window');
   const {isSuccess, stopNameToEtaList} = useStopNameToEtaList(route.params);
 
-  const {
-    routeToFavouriteStopIndices,
-    addFavouriteStopIndexToRoute,
-    removeFavouriteStopIndexToRoute,
-  } = useStore();
-  const FavouriteStopIndices = routeToFavouriteStopIndices.get(route.params);
+  const {routeToFavoritestopIndices, addFavoritestopIndexToRoute, removeFavoritestopIndexToRoute} =
+    useStore();
+  const FavoritestopIndices = routeToFavoritestopIndices.get(route.params);
 
   return (
     <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
@@ -104,13 +101,13 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
                   <TouchableOpacity
                     style={{flex: 1, paddingHorizontal: 30, justifyContent: 'center'}}
                   >
-                    {FavouriteStopIndices?.includes(index) ? (
+                    {FavoritestopIndices?.includes(index) ? (
                       <FontAwesome
                         size={30}
                         name="star"
                         color="#ffff00"
                         onPress={() => {
-                          removeFavouriteStopIndexToRoute(index, route.params);
+                          removeFavoritestopIndexToRoute(index, route.params);
                         }}
                       />
                     ) : (
@@ -119,7 +116,7 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
                         name="star-o"
                         color="#aaaaaa66"
                         onPress={() => {
-                          addFavouriteStopIndexToRoute(index, route.params);
+                          addFavoritestopIndexToRoute(index, route.params);
                         }}
                       />
                     )}

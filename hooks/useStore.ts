@@ -18,40 +18,38 @@ export interface Stop {
 interface StoreState {
   routes: Route[] | undefined;
   setRoutes: (routes: Route[]) => void;
-  routeToFavouriteStopIndices: Map<Route, number[]>;
-  addFavouriteStopIndexToRoute: (index: number, route: Route) => void;
-  removeFavouriteStopIndexToRoute: (index: number, route: Route) => void;
+  routeToFavoritestopIndices: Map<Route, number[]>;
+  addFavoritestopIndexToRoute: (index: number, route: Route) => void;
+  removeFavoritestopIndexToRoute: (index: number, route: Route) => void;
 }
 
 const useStore = create<StoreState>()(set => ({
   routes: undefined,
   setRoutes: routes => set(state => ({routes})),
 
-  routeToFavouriteStopIndices: new Map(),
+  routeToFavoritestopIndices: new Map(),
 
-  addFavouriteStopIndexToRoute: (index, route) => {
-    console.log(index);
-    console.log(route);
+  addFavoritestopIndexToRoute: (index, route) => {
     set(state => {
-      const favouriteStopIndicesOfRoute = state.routeToFavouriteStopIndices.get(route) ?? [];
+      const favoritestopIndicesOfRoute = state.routeToFavoritestopIndices.get(route) ?? [];
 
       return {
-        routeToFavouriteStopIndices: state.routeToFavouriteStopIndices.set(route, [
-          ...new Set([...favouriteStopIndicesOfRoute, index]),
+        routeToFavoritestopIndices: state.routeToFavoritestopIndices.set(route, [
+          ...new Set([...favoritestopIndicesOfRoute, index]),
         ]),
       };
     });
   },
 
-  removeFavouriteStopIndexToRoute: (index, route) =>
+  removeFavoritestopIndexToRoute: (index, route) =>
     set(state => {
-      const favouriteStopIndicesOfRoute = state.routeToFavouriteStopIndices.get(route);
+      const favoritestopIndicesOfRoute = state.routeToFavoritestopIndices.get(route);
 
-      if (favouriteStopIndicesOfRoute !== undefined) {
+      if (favoritestopIndicesOfRoute !== undefined) {
         return {
-          routeToFavouriteStopIndices: state.routeToFavouriteStopIndices.set(
+          routeToFavoritestopIndices: state.routeToFavoritestopIndices.set(
             route,
-            favouriteStopIndicesOfRoute.filter(_index => _index !== index)
+            favoritestopIndicesOfRoute.filter(_index => _index !== index)
           ),
         };
       } else {
