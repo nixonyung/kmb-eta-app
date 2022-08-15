@@ -1,35 +1,96 @@
-import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet } from 'react-native';
+import _ from 'lodash';
+import {Dimensions, Pressable, StyleSheet, Text} from 'react-native';
+import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
+import {View} from '../components/Themed';
+import useStopNameToEtaList from '../hooks/useStopNameToEtaList';
+import {RootStackScreenProps} from '../navigation/types';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+export default function ModalScreen({route, navigation}: RootStackScreenProps<'Modal'>) {
+  const {width, height} = Dimensions.get('window');
+  const {isSuccess, stopNameToEtaList} = useStopNameToEtaList(route.params);
 
-export default function ModalScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/ModalScreen.tsx" />
+    <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
+      {/* Overlay */}
+      <Pressable
+        style={[StyleSheet.absoluteFill, {backgroundColor: 'rgba(0, 0, 0, 0.5)'}]}
+        onPress={navigation.goBack}
+      />
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+      {/* header */}
+      <View
+        style={{
+          borderTopStartRadius: 10,
+          borderTopEndRadius: 10,
+          backgroundColor: 'white',
+        }}
+      >
+        <Text style={{marginVertical: 10, fontSize: 18, textAlign: 'center'}}>
+          {route.params.route} 往 {route.params.dest_tc}
+          {route.params.service_type === '1' ? '' : ' (特別班)'}
+        </Text>
+      </View>
+
+      {/* ETA list */}
+      <View style={{height: 320, backgroundColor: 'white'}}>
+        {isSuccess ? (
+          <RecyclerListView
+            style={{flex: 1}}
+            dataProvider={new DataProvider(
+              (it1: typeof stopNameToEtaList[number], it2: typeof stopNameToEtaList[number]) =>
+                it1.name_tc !== it2.name_tc
+            ).cloneWithRows(stopNameToEtaList)}
+            layoutProvider={_(
+              new LayoutProvider(
+                index => 0,
+
+                (type, dim) => {
+                  dim.width = width;
+                  dim.height = 100;
+                }
+              )
+            )
+              // lodash.tap to modify properties inplace
+              .tap(it => (it.shouldRefreshWithAnchoring = false))
+              .value()}
+            rowRenderer={(type, item: typeof stopNameToEtaList[number], index) => (
+              <View
+                key={index}
+                style={{
+                  height: '100%',
+
+                  paddingVertical: 5,
+                  paddingHorizontal: 20,
+                  borderWidth: 1,
+                  borderColor: '#00000066',
+                  backgroundColor: '#c1d8fc',
+                }}
+              >
+                <Text style={{fontSize: 18}}>
+                  {index + 1}. {item.name_tc}
+                </Text>
+
+                {_.isEmpty(item.eta) ? (
+                  <Text style={{marginTop: 10, marginLeft: 30, fontSize: 18}}>暫沒有班次</Text>
+                ) : (
+                  item.eta.map((etaText, index) => (
+                    <Text
+                      style={{marginLeft: 30, color: etaText[0] === '-' ? '#ff2222' : 'black'}}
+                      key={index}
+                    >
+                      {etaText}
+                    </Text>
+                  ))
+                )}
+              </View>
+            )}
+          />
+        ) : (
+          <Text style={{paddingTop: 40, fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>
+            Loading...
+          </Text>
+        )}
+      </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
