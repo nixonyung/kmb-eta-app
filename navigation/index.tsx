@@ -17,12 +17,7 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import LinkingConfiguration from './LinkingConfiguration';
-import {
-  RootStackParamList,
-  RootStackScreenProps,
-  RootTabParamList,
-  RootTabScreenProps,
-} from './types';
+import {RootStackParamList, RootTabParamList, RootTabScreenProps} from './types';
 
 export default function Navigation({colorScheme}: {colorScheme: ColorSchemeName}) {
   return (
@@ -50,10 +45,10 @@ function RootNavigator() {
         <Stack.Screen
           name="Modal"
           component={ModalScreen}
-          options={({route}: RootStackScreenProps<'Modal'>) => ({
+          options={{
             presentation: 'transparentModal',
             headerShown: false,
-          })}
+          }}
         />
       </Stack.Group>
     </Stack.Navigator>
