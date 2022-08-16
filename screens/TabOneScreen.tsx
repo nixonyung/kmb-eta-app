@@ -61,8 +61,8 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
                   flex: 1,
                   paddingHorizontal: 20,
                   borderWidth: 1,
-                  borderColor: '#00000066',
-                  backgroundColor: '#0070ff44',
+                  borderColor: '#666666',
+                  backgroundColor: '#a2c5fa',
                 }}
               >
                 <Text style={{fontSize: 20}}>

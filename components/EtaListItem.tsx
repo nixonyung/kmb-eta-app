@@ -28,8 +28,8 @@ export default function EtaListItem({
         paddingVertical: 5,
         paddingLeft: 20,
         borderWidth: 1,
-        borderColor: '#00000066',
-        backgroundColor: '#c1d8fc',
+        borderColor: '#666666',
+        backgroundColor: '#a2c5fa',
       }}
     >
       <View style={{backgroundColor: 'transparent'}}>
@@ -67,7 +67,7 @@ export default function EtaListItem({
           <FontAwesome
             size={30}
             name={isFavorite ? 'star' : 'star-o'}
-            color={isFavorite ? '#ffff00' : '#aaaaaa66'}
+            color={isFavorite ? '#ffdc00' : '#aaaaaa66'}
           />
         </TouchableOpacity>
       </View>
