@@ -1,7 +1,8 @@
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {focusManager, QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {StatusBar} from 'expo-status-bar';
 import _ from 'lodash';
 import {useEffect} from 'react';
+import {AppState, Platform} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
@@ -13,6 +14,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       queryFn: async ({queryKey}) => {
+        console.log('fetching ' + queryKey + ' at ' + new Date().toLocaleTimeString());
         const res = await fetch(
           `https://data.etabus.gov.hk/v1/transport/kmb/${queryKey.join('/')}`,
           {
@@ -41,6 +43,16 @@ export default function App() {
           )
         )
       );
+  }, []);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', status => {
+      if (Platform.OS !== 'web') {
+        focusManager.setFocused(status === 'active');
+      }
+    });
+
+    return () => subscription.remove();
   }, []);
 
   if (!isLoadingComplete) {
