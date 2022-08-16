@@ -3,8 +3,9 @@ import {useState} from 'react';
 import {Dimensions, Keyboard, Text, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
-import useStore, {Route} from '../hooks/useStore';
+import useStore from '../hooks/useStore';
 import {RootTabScreenProps} from '../navigation/types';
+import Route from '../schemas/Route';
 
 const {width, height} = Dimensions.get('window');
 

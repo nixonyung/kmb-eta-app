@@ -6,7 +6,7 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps, NavigatorScreenParams} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Route} from '../hooks/useStore';
+import Route from '../schemas/Route';
 
 declare global {
   namespace ReactNavigation {

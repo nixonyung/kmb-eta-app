@@ -1,20 +1,6 @@
 import _ from 'lodash';
 import create from 'zustand';
-
-export interface Route {
-  route: string;
-  bound: 'I' | 'O';
-  service_type: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
-  orig_tc: string;
-  dest_tc: string;
-}
-
-export interface Stop {
-  route: string;
-  bound: 'I' | 'O';
-  service_type: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
-  index: number;
-}
+import Route from '../schemas/Route';
 
 interface StoreState {
   routes: Route[] | undefined;

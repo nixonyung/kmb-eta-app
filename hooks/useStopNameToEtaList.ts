@@ -1,18 +1,14 @@
 import {useQueries, useQuery, useQueryClient, UseQueryResult} from '@tanstack/react-query';
 import _ from 'lodash';
 import {useEffect, useState} from 'react';
+import Route from '../schemas/Route';
 import {useInterval} from './useInterval';
-import {Route} from './useStore';
 
 function getKmbDataOrDefault(kmbQueryResult: UseQueryResult, defaultValue: any = undefined): any {
   return kmbQueryResult.isSuccess ? (kmbQueryResult.data as any).data : defaultValue;
 }
 
-export default function useStopNameToEtaList({
-  route,
-  bound,
-  service_type,
-}: Pick<Route, 'route' | 'bound' | 'service_type'>) {
+export default function useStopNameToEtaList({route, bound, service_type}: Route) {
   // periodically invalidate and update route-eta data
   const queryClient = useQueryClient();
   const updateQueryInterval = useInterval(() => {
