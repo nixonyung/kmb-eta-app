@@ -3,8 +3,8 @@ import {Dimensions, Pressable, StyleSheet, Text} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import EtaListItem from '../components/EtaListItem';
 import {View} from '../components/Themed';
+import useDataStore from '../hooks/useDataStore';
 import useRouteAllStopNamesWithEtas from '../hooks/useRouteAllStopNamesWithEtas';
-import useStore from '../hooks/useStore';
 import {RootStackScreenProps} from '../navigation/types';
 import StopNameWithEtas from '../schemas/StopNameWithEtas';
 
@@ -12,11 +12,16 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
   const {width} = Dimensions.get('window');
   const {isSuccess, routeAllStopNamesWithEtas} = useRouteAllStopNamesWithEtas(route.params);
 
-  const routeToFavoritestopIndices = useStore(store => store.routeToFavoritestopIndices, _.isEqual);
+  const routeToFavoritestopIndices = useDataStore(
+    store => store.routeToFavoritestopIndices,
+    _.isEqual
+  );
   const favoritestopIndices = routeToFavoritestopIndices.get(route.params);
 
-  const addFavoritestopIndexToRoute = useStore(store => store.addFavoritestopIndexToRoute);
-  const removeFavoritestopIndexToRoute = useStore(store => store.removeFavoritestopIndexToRoute);
+  const addFavoritestopIndexToRoute = useDataStore(store => store.addFavoritestopIndexToRoute);
+  const removeFavoritestopIndexToRoute = useDataStore(
+    store => store.removeFavoritestopIndexToRoute
+  );
 
   return (
     <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>

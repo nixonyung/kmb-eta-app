@@ -3,14 +3,14 @@ import {useState} from 'react';
 import {Dimensions, Keyboard, Text, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
-import useStore from '../hooks/useStore';
+import useDataStore from '../hooks/useDataStore';
 import {RootTabScreenProps} from '../navigation/types';
 import Route from '../schemas/Route';
 
 const {width, height} = Dimensions.get('window');
 
 export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>) {
-  const routes = useStore(state => state.routes);
+  const routes = useDataStore(state => state.routes);
   const [SearchText, setSearchText] = useState('');
   const filteredRoutes = routes?.filter(r => r.route.match(new RegExp(`^${SearchText}`, 'gi')));
 

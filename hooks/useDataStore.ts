@@ -4,17 +4,19 @@ import Route from '../schemas/Route';
 
 export interface StoreState {
   routes: Route[] | undefined;
-  setRoutes: (routes: Route[]) => void;
   routeToFavoritestopIndices: Map<Route, number[]>;
+
+  setRoutes: (routes: Route[]) => void;
+
   addFavoritestopIndexToRoute: (index: number, route: Route) => void;
   removeFavoritestopIndexToRoute: (index: number, route: Route) => void;
 }
 
-const useStore = create<StoreState>()(set => ({
+const useDataStore = create<StoreState>()(set => ({
   routes: undefined,
-  setRoutes: routes => set(state => ({routes})),
-
   routeToFavoritestopIndices: new Map(),
+
+  setRoutes: routes => set(state => ({routes})),
 
   addFavoritestopIndexToRoute: (index, route) =>
     set(state => {
@@ -44,4 +46,4 @@ const useStore = create<StoreState>()(set => ({
     }),
 }));
 
-export default useStore;
+export default useDataStore;

@@ -7,7 +7,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
-import useStore from './hooks/useStore';
+import useDataStore from './hooks/useDataStore';
 import Navigation from './navigation';
 
 const queryClient = new QueryClient({
@@ -31,7 +31,7 @@ const queryClient = new QueryClient({
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  const setRoutes = useStore(state => state.setRoutes);
+  const setRoutes = useDataStore(state => state.setRoutes);
 
   useEffect(() => {
     fetch('https://data.etabus.gov.hk/v1/transport/kmb/route')

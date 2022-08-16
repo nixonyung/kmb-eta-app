@@ -1,10 +1,10 @@
 import {useQueries} from '@tanstack/react-query';
 import {Text} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import useStore from '../hooks/useStore';
+import useDataStore from '../hooks/useDataStore';
 
 export default function TabTwoScreen() {
-  const routeToFavoritestopIndices = useStore(store => store.routeToFavoritestopIndices);
+  const routeToFavoritestopIndices = useDataStore(store => store.routeToFavoritestopIndices);
 
   useQueries({queries: [...routeToFavoritestopIndices.keys()].map(route => ({queryKey: []}))});
 
