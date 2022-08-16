@@ -14,7 +14,12 @@ export default function TabTwoScreen() {
       <ScrollView style={{flex: 1}}>
         {[...routeToFavoriteStopIndices].flatMap(([route, indices]) =>
           indices.map(index => (
-            <EtaListItem key={`${route.route}-${index}`} index={index} route={route} />
+            <EtaListItem
+              key={`${route.route}-${index}`}
+              index={index}
+              route={route}
+              routeNameShown
+            />
           ))
         )}
       </ScrollView>

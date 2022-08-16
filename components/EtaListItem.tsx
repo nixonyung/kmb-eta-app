@@ -8,21 +8,10 @@ import Route from '../schemas/Route';
 interface EtaListItemProp {
   route: Route;
   index: number;
-
-  // stopNameWithEtas: StopNameWithEtas;
-  // isFavorite?: boolean;
-  // _addFavoritestopIndexToRoute: (index: number) => void;
-  // _removeFavoritestopIndexToRoute: (index: number) => void;
+  routeNameShown?: boolean;
 }
 
-export default function EtaListItem({
-  route,
-  index,
-}: // stopNameWithEtas,
-// isFavorite = false,
-// _addFavoritestopIndexToRoute,
-// _removeFavoritestopIndexToRoute,
-EtaListItemProp) {
+export default function EtaListItem({route, index, routeNameShown = false}: EtaListItemProp) {
   const {routeAllStopNamesWithEtas} = useRouteAllStopNamesWithEtas(route);
   const stopNameWithEtas = routeAllStopNamesWithEtas[index];
 
@@ -37,7 +26,7 @@ EtaListItemProp) {
   return (
     <View
       style={{
-        height: 100,
+        height: routeNameShown ? 130 : 100,
 
         flexDirection: 'row',
         paddingVertical: 5,
@@ -47,7 +36,11 @@ EtaListItemProp) {
         backgroundColor: '#a2c5fa',
       }}
     >
-      <View style={{backgroundColor: 'transparent'}}>
+      <View>
+        {routeNameShown && (
+          <Text style={{marginVertical: 5, fontSize: 20, fontWeight: 'bold'}}>{route.route}</Text>
+        )}
+
         <Text style={{fontSize: 18}}>
           {index + 1}. {stopNameWithEtas.name_tc}
         </Text>
@@ -65,13 +58,10 @@ EtaListItemProp) {
           ))
         )}
       </View>
-      <View style={{flex: 1, backgroundColor: 'transparent'}} />
-      <View
-        style={{
-          height: '100%',
-          backgroundColor: 'transparent',
-        }}
-      >
+
+      <View style={{flex: 1}} />
+
+      <View style={{height: '100%'}}>
         <TouchableOpacity
           style={{flex: 1, paddingHorizontal: 30, justifyContent: 'center'}}
           onPress={() => {
