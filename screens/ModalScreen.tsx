@@ -1,15 +1,16 @@
 import _ from 'lodash';
 import {Dimensions, Pressable, StyleSheet, Text} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
-import EtaListItem from '../components/etaListItem';
+import EtaListItem from '../components/EtaListItem';
 import {View} from '../components/Themed';
-import useRouteStopNamesWithEtas from '../hooks/useRouteStopNamesWithEtas';
+import useRouteAllStopNamesWithEtas from '../hooks/useRouteAllStopNamesWithEtas';
 import useStore from '../hooks/useStore';
 import {RootStackScreenProps} from '../navigation/types';
+import StopNameWithEtas from '../schemas/StopNameWithEtas';
 
 export default function ModalScreen({route, navigation}: RootStackScreenProps<'Modal'>) {
   const {width} = Dimensions.get('window');
-  const {isSuccess, routeStopNamesWithEtas} = useRouteStopNamesWithEtas(route.params);
+  const {isSuccess, routeAllStopNamesWithEtas} = useRouteAllStopNamesWithEtas(route.params);
 
   const routeToFavoritestopIndices = useStore(store => store.routeToFavoritestopIndices, _.isEqual);
   const favoritestopIndices = routeToFavoritestopIndices.get(route.params);
@@ -45,11 +46,8 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
           <RecyclerListView
             style={{flex: 1}}
             dataProvider={new DataProvider(
-              (
-                it1: typeof routeStopNamesWithEtas[number],
-                it2: typeof routeStopNamesWithEtas[number]
-              ) => it1.name_tc !== it2.name_tc
-            ).cloneWithRows(routeStopNamesWithEtas)}
+              (it1: StopNameWithEtas, it2: StopNameWithEtas) => it1.name_tc !== it2.name_tc
+            ).cloneWithRows(routeAllStopNamesWithEtas)}
             layoutProvider={_(
               new LayoutProvider(
                 index => 0,
@@ -63,10 +61,10 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
               // lodash.tap to modify properties inplace
               .tap(it => (it.shouldRefreshWithAnchoring = false))
               .value()}
-            rowRenderer={(type, item: typeof routeStopNamesWithEtas[number], index) => (
+            rowRenderer={(type, item: StopNameWithEtas, index) => (
               <EtaListItem
                 index={index}
-                routeStopNamesWithEtas={item}
+                stopNameWithEtas={item}
                 isFavorite={favoritestopIndices?.includes(index)}
                 _addFavoritestopIndexToRoute={_.partialRight(
                   addFavoritestopIndexToRoute,

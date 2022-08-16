@@ -2,14 +2,14 @@ import {useQueries, useQuery, useQueryClient, UseQueryResult} from '@tanstack/re
 import _ from 'lodash';
 import {useEffect, useState} from 'react';
 import Route from '../schemas/Route';
-import RouteStopNameWithEtas from '../schemas/RouteStopNameWithEtas';
+import StopNameWithEtas from '../schemas/StopNameWithEtas';
 import {useInterval} from './useInterval';
 
 function getKmbDataOrDefault(kmbQueryResult: UseQueryResult, defaultValue: any = undefined): any {
   return kmbQueryResult.isSuccess ? (kmbQueryResult.data as any).data : defaultValue;
 }
 
-export default function useRouteStopNamesWithEtas({route, bound, service_type}: Route) {
+export default function useRouteAllStopNamesWithEtas({route, bound, service_type}: Route) {
   // periodically invalidate and update route-eta data
   const queryClient = useQueryClient();
   const updateQueryInterval = useInterval(() => {
@@ -71,7 +71,7 @@ export default function useRouteStopNamesWithEtas({route, bound, service_type}: 
     )
     .value();
 
-  const routeStopNamesWithEtas: RouteStopNameWithEtas[] = stopNameListData.map(
+  const routeAllStopNamesWithEtas: StopNameWithEtas[] = stopNameListData.map(
     (name_tc: string | undefined, index) => ({
       name_tc,
       eta: etaListData[index + 1],
@@ -79,7 +79,7 @@ export default function useRouteStopNamesWithEtas({route, bound, service_type}: 
   );
 
   return {
-    routeStopNamesWithEtas,
+    routeAllStopNamesWithEtas,
     isSuccess:
       stopIdListResult.isSuccess &&
       stopInfoListResult.every(r => r.isSuccess) &&

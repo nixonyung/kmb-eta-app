@@ -1,4 +1,4 @@
-export default interface RouteStopNameWithEtas {
+export default interface StopNameWithEtas {
   name_tc: string | undefined;
   eta: string[];
 }

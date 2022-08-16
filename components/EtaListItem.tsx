@@ -1,11 +1,11 @@
 import {FontAwesome} from '@expo/vector-icons';
 import _ from 'lodash';
 import {Text, TouchableOpacity, View} from 'react-native';
-import RouteStopNamesWithEtas from '../schemas/RouteStopNameWithEtas';
+import StopNameWithEtas from '../schemas/StopNameWithEtas';
 
 interface EtaListItemProp {
   index: number;
-  routeStopNamesWithEtas: RouteStopNamesWithEtas;
+  stopNameWithEtas: StopNameWithEtas;
   isFavorite?: boolean;
   _addFavoritestopIndexToRoute: (index: number) => void;
   _removeFavoritestopIndexToRoute: (index: number) => void;
@@ -13,7 +13,7 @@ interface EtaListItemProp {
 
 export default function EtaListItem({
   index,
-  routeStopNamesWithEtas,
+  stopNameWithEtas,
   isFavorite = false,
   _addFavoritestopIndexToRoute,
   _removeFavoritestopIndexToRoute,
@@ -34,13 +34,13 @@ export default function EtaListItem({
     >
       <View style={{backgroundColor: 'transparent'}}>
         <Text style={{fontSize: 18}}>
-          {index + 1}. {routeStopNamesWithEtas.name_tc}
+          {index + 1}. {stopNameWithEtas.name_tc}
         </Text>
 
-        {_.isEmpty(routeStopNamesWithEtas.eta) ? (
+        {_.isEmpty(stopNameWithEtas.eta) ? (
           <Text style={{marginTop: 10, marginLeft: 30, fontSize: 18}}>暫沒有班次</Text>
         ) : (
-          routeStopNamesWithEtas.eta.map((etaText, index) => (
+          stopNameWithEtas.eta.map((etaText, index) => (
             <Text
               style={{marginLeft: 30, color: etaText[0] === '-' ? '#ff2222' : 'black'}}
               key={index}
@@ -57,26 +57,18 @@ export default function EtaListItem({
           backgroundColor: 'transparent',
         }}
       >
-        <TouchableOpacity style={{flex: 1, paddingHorizontal: 30, justifyContent: 'center'}}>
-          {isFavorite ? (
-            <FontAwesome
-              size={30}
-              name="star"
-              color="#ffff00"
-              onPress={() => {
-                _removeFavoritestopIndexToRoute(index);
-              }}
-            />
-          ) : (
-            <FontAwesome
-              size={30}
-              name="star-o"
-              color="#aaaaaa66"
-              onPress={() => {
-                _addFavoritestopIndexToRoute(index);
-              }}
-            />
-          )}
+        <TouchableOpacity
+          style={{flex: 1, paddingHorizontal: 30, justifyContent: 'center'}}
+          onPress={() => {
+            if (isFavorite) _removeFavoritestopIndexToRoute(index);
+            else _addFavoritestopIndexToRoute(index);
+          }}
+        >
+          <FontAwesome
+            size={30}
+            name={isFavorite ? 'star' : 'star-o'}
+            color={isFavorite ? '#ffff00' : '#aaaaaa66'}
+          />
         </TouchableOpacity>
       </View>
     </View>
