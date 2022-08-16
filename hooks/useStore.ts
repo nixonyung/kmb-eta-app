@@ -2,7 +2,7 @@ import _ from 'lodash';
 import create from 'zustand';
 import Route from '../schemas/Route';
 
-interface StoreState {
+export interface StoreState {
   routes: Route[] | undefined;
   setRoutes: (routes: Route[]) => void;
   routeToFavoritestopIndices: Map<Route, number[]>;

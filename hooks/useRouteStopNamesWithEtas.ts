@@ -2,13 +2,14 @@ import {useQueries, useQuery, useQueryClient, UseQueryResult} from '@tanstack/re
 import _ from 'lodash';
 import {useEffect, useState} from 'react';
 import Route from '../schemas/Route';
+import RouteStopNameWithEtas from '../schemas/RouteStopNameWithEtas';
 import {useInterval} from './useInterval';
 
 function getKmbDataOrDefault(kmbQueryResult: UseQueryResult, defaultValue: any = undefined): any {
   return kmbQueryResult.isSuccess ? (kmbQueryResult.data as any).data : defaultValue;
 }
 
-export default function useStopNameToEtaList({route, bound, service_type}: Route) {
+export default function useRouteStopNamesWithEtas({route, bound, service_type}: Route) {
   // periodically invalidate and update route-eta data
   const queryClient = useQueryClient();
   const updateQueryInterval = useInterval(() => {
@@ -30,6 +31,7 @@ export default function useStopNameToEtaList({route, bound, service_type}: Route
     };
   }, []);
 
+  // get all stop names of the given route
   const stopIdListResult = useQuery([
     'route-stop',
     route,
@@ -42,8 +44,10 @@ export default function useStopNameToEtaList({route, bound, service_type}: Route
       queryKey: ['stop', it.stop],
     })),
   });
+
   const stopNameListData = stopInfoListResult.map(it => getKmbDataOrDefault(it)?.name_tc);
 
+  // get all stop eta of the given route
   const etaListResult = useQuery(['route-eta', route, service_type]);
   const etaListData = _(getKmbDataOrDefault(etaListResult, []))
     .filter(it => it.dir === bound)
@@ -67,13 +71,15 @@ export default function useStopNameToEtaList({route, bound, service_type}: Route
     )
     .value();
 
-  const stopNameToEtaList = stopNameListData.map((name_tc: string | undefined, index) => ({
-    name_tc,
-    eta: etaListData[index + 1],
-  }));
+  const routeStopNamesWithEtas: RouteStopNameWithEtas[] = stopNameListData.map(
+    (name_tc: string | undefined, index) => ({
+      name_tc,
+      eta: etaListData[index + 1],
+    })
+  );
 
   return {
-    stopNameToEtaList,
+    routeStopNamesWithEtas,
     isSuccess:
       stopIdListResult.isSuccess &&
       stopInfoListResult.every(r => r.isSuccess) &&

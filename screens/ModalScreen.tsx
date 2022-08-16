@@ -1,21 +1,21 @@
-import {FontAwesome} from '@expo/vector-icons';
 import _ from 'lodash';
-import {Dimensions, Pressable, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Dimensions, Pressable, StyleSheet, Text} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
+import EtaListItem from '../components/etaListItem';
 import {View} from '../components/Themed';
-import useStopNameToEtaList from '../hooks/useStopNameToEtaList';
+import useRouteStopNamesWithEtas from '../hooks/useRouteStopNamesWithEtas';
 import useStore from '../hooks/useStore';
 import {RootStackScreenProps} from '../navigation/types';
 
 export default function ModalScreen({route, navigation}: RootStackScreenProps<'Modal'>) {
-  const {width, height} = Dimensions.get('window');
-  const {isSuccess, stopNameToEtaList} = useStopNameToEtaList(route.params);
+  const {width} = Dimensions.get('window');
+  const {isSuccess, routeStopNamesWithEtas} = useRouteStopNamesWithEtas(route.params);
 
   const routeToFavoritestopIndices = useStore(store => store.routeToFavoritestopIndices, _.isEqual);
+  const favoritestopIndices = routeToFavoritestopIndices.get(route.params);
+
   const addFavoritestopIndexToRoute = useStore(store => store.addFavoritestopIndexToRoute);
   const removeFavoritestopIndexToRoute = useStore(store => store.removeFavoritestopIndexToRoute);
-
-  const FavoritestopIndices = routeToFavoritestopIndices.get(route.params);
 
   return (
     <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
@@ -45,9 +45,11 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
           <RecyclerListView
             style={{flex: 1}}
             dataProvider={new DataProvider(
-              (it1: typeof stopNameToEtaList[number], it2: typeof stopNameToEtaList[number]) =>
-                it1.name_tc !== it2.name_tc
-            ).cloneWithRows(stopNameToEtaList)}
+              (
+                it1: typeof routeStopNamesWithEtas[number],
+                it2: typeof routeStopNamesWithEtas[number]
+              ) => it1.name_tc !== it2.name_tc
+            ).cloneWithRows(routeStopNamesWithEtas)}
             layoutProvider={_(
               new LayoutProvider(
                 index => 0,
@@ -61,70 +63,20 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
               // lodash.tap to modify properties inplace
               .tap(it => (it.shouldRefreshWithAnchoring = false))
               .value()}
-            rowRenderer={(type, item: typeof stopNameToEtaList[number], index) => (
-              <View
-                key={index}
-                style={{
-                  height: '100%',
-
-                  flexDirection: 'row',
-                  paddingVertical: 5,
-                  paddingLeft: 20,
-                  borderWidth: 1,
-                  borderColor: '#00000066',
-                  backgroundColor: '#c1d8fc',
-                }}
-              >
-                <View style={{backgroundColor: 'transparent'}}>
-                  <Text style={{fontSize: 18}}>
-                    {index + 1}. {item.name_tc}
-                  </Text>
-
-                  {_.isEmpty(item.eta) ? (
-                    <Text style={{marginTop: 10, marginLeft: 30, fontSize: 18}}>暫沒有班次</Text>
-                  ) : (
-                    item.eta.map((etaText, index) => (
-                      <Text
-                        style={{marginLeft: 30, color: etaText[0] === '-' ? '#ff2222' : 'black'}}
-                        key={index}
-                      >
-                        {etaText}
-                      </Text>
-                    ))
-                  )}
-                </View>
-                <View style={{flex: 1, backgroundColor: 'transparent'}} />
-                <View
-                  style={{
-                    height: '100%',
-                    backgroundColor: 'transparent',
-                  }}
-                >
-                  <TouchableOpacity
-                    style={{flex: 1, paddingHorizontal: 30, justifyContent: 'center'}}
-                  >
-                    {FavoritestopIndices?.includes(index) ? (
-                      <FontAwesome
-                        size={30}
-                        name="star"
-                        color="#ffff00"
-                        onPress={() => {
-                          removeFavoritestopIndexToRoute(index, route.params);
-                        }}
-                      />
-                    ) : (
-                      <FontAwesome
-                        size={30}
-                        name="star-o"
-                        color="#aaaaaa66"
-                        onPress={() => {
-                          addFavoritestopIndexToRoute(index, route.params);
-                        }}
-                      />
-                    )}
-                  </TouchableOpacity>
-                </View>
-              </View>
+            rowRenderer={(type, item: typeof routeStopNamesWithEtas[number], index) => (
+              <EtaListItem
+                index={index}
+                routeStopNamesWithEtas={item}
+                isFavorite={favoritestopIndices?.includes(index)}
+                _addFavoritestopIndexToRoute={_.partialRight(
+                  addFavoritestopIndexToRoute,
+                  route.params
+                )}
+                _removeFavoritestopIndexToRoute={_.partialRight(
+                  removeFavoritestopIndexToRoute,
+                  route.params
+                )}
+              />
             )}
           />
         ) : (
