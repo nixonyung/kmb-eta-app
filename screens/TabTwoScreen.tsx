@@ -1,25 +1,23 @@
 import {useQueries} from '@tanstack/react-query';
-import {Text} from 'react-native';
+import {ScrollView} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import EtaListItem from '../components/EtaListItem';
 import useDataStore from '../hooks/useDataStore';
 
 export default function TabTwoScreen() {
-  const routeToFavoritestopIndices = useDataStore(store => store.routeToFavoritestopIndices);
+  const routeToFavoriteStopIndices = useDataStore(store => store.routeToFavoriteStopIndices);
 
-  useQueries({queries: [...routeToFavoritestopIndices.keys()].map(route => ({queryKey: []}))});
+  useQueries({queries: [...routeToFavoriteStopIndices.keys()].map(route => ({queryKey: []}))});
 
   return (
     <SafeAreaProvider style={{flex: 1, backgroundColor: 'white'}}>
-      <Text>haha</Text>
-
-      {[...routeToFavoritestopIndices].flatMap(([route, indices]) =>
-        indices.map(index => (
-          // <EtaListItem index={index} route={route} isFavorite />
-          <Text key={`${route.route}-${route.service_type}-${route.bound}-${index}`}>
-            {route.route} {route.service_type} {route.bound}: {index}
-          </Text>
-        ))
-      )}
+      <ScrollView style={{flex: 1}}>
+        {[...routeToFavoriteStopIndices].flatMap(([route, indices]) =>
+          indices.map(index => (
+            <EtaListItem key={`${route.route}-${index}`} index={index} route={route} />
+          ))
+        )}
+      </ScrollView>
     </SafeAreaProvider>
   );
 }

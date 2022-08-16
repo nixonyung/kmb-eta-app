@@ -4,9 +4,10 @@ import Route from '../schemas/Route';
 
 export interface StoreState {
   routes: Route[] | undefined;
-  routeToFavoritestopIndices: Map<Route, number[]>;
+  routeToStopNames: Map<Route, string[]>;
+  routeToFavoriteStopIndices: Map<Route, number[]>;
 
-  setRoutes: (routes: Route[]) => void;
+  initRoutes: (routes: Route[]) => void;
 
   addFavoritestopIndexToRoute: (index: number, route: Route) => void;
   removeFavoritestopIndexToRoute: (index: number, route: Route) => void;
@@ -14,16 +15,17 @@ export interface StoreState {
 
 const useDataStore = create<StoreState>()(set => ({
   routes: undefined,
-  routeToFavoritestopIndices: new Map(),
+  routeToStopNames: new Map(),
+  routeToFavoriteStopIndices: new Map(),
 
-  setRoutes: routes => set(state => ({routes})),
+  initRoutes: routes => set(state => ({routes})),
 
   addFavoritestopIndexToRoute: (index, route) =>
     set(state => {
-      const currentIndices = state.routeToFavoritestopIndices.get(route) ?? [];
+      const currentIndices = state.routeToFavoriteStopIndices.get(route) ?? [];
 
       return {
-        routeToFavoritestopIndices: _.cloneDeep(state.routeToFavoritestopIndices).set(route, [
+        routeToFavoriteStopIndices: _.cloneDeep(state.routeToFavoriteStopIndices).set(route, [
           ...new Set([...currentIndices, index]),
         ]),
       };
@@ -31,11 +33,11 @@ const useDataStore = create<StoreState>()(set => ({
 
   removeFavoritestopIndexToRoute: (index, route) =>
     set(state => {
-      const currentIndices = state.routeToFavoritestopIndices.get(route);
+      const currentIndices = state.routeToFavoriteStopIndices.get(route);
 
       if (currentIndices !== undefined) {
         return {
-          routeToFavoritestopIndices: _.cloneDeep(state.routeToFavoritestopIndices).set(
+          routeToFavoriteStopIndices: _.cloneDeep(state.routeToFavoriteStopIndices).set(
             route,
             currentIndices.filter(_index => _index !== index)
           ),

@@ -14,7 +14,6 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       queryFn: async ({queryKey}) => {
-        console.log('fetching ' + queryKey + ' at ' + new Date().toLocaleTimeString());
         const res = await fetch(
           `https://data.etabus.gov.hk/v1/transport/kmb/${queryKey.join('/')}`,
           {
@@ -31,13 +30,13 @@ const queryClient = new QueryClient({
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  const setRoutes = useDataStore(state => state.setRoutes);
+  const initRoutes = useDataStore(state => state.initRoutes);
 
   useEffect(() => {
     fetch('https://data.etabus.gov.hk/v1/transport/kmb/route')
       .then(res => res.json())
       .then(data =>
-        setRoutes(
+        initRoutes(
           data.data.map((d: any) =>
             _.pick(d, ['route', 'bound', 'service_type', 'orig_tc', 'dest_tc'])
           )

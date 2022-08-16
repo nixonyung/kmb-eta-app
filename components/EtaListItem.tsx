@@ -1,28 +1,43 @@
 import {FontAwesome} from '@expo/vector-icons';
 import _ from 'lodash';
 import {Text, TouchableOpacity, View} from 'react-native';
-import StopNameWithEtas from '../schemas/StopNameWithEtas';
+import useDataStore from '../hooks/useDataStore';
+import useRouteAllStopNamesWithEtas from '../hooks/useRouteAllStopNamesWithEtas';
+import Route from '../schemas/Route';
 
 interface EtaListItemProp {
+  route: Route;
   index: number;
-  stopNameWithEtas: StopNameWithEtas;
-  isFavorite?: boolean;
-  _addFavoritestopIndexToRoute: (index: number) => void;
-  _removeFavoritestopIndexToRoute: (index: number) => void;
+
+  // stopNameWithEtas: StopNameWithEtas;
+  // isFavorite?: boolean;
+  // _addFavoritestopIndexToRoute: (index: number) => void;
+  // _removeFavoritestopIndexToRoute: (index: number) => void;
 }
 
 export default function EtaListItem({
+  route,
   index,
-  stopNameWithEtas,
-  isFavorite = false,
-  _addFavoritestopIndexToRoute,
-  _removeFavoritestopIndexToRoute,
-}: EtaListItemProp) {
+}: // stopNameWithEtas,
+// isFavorite = false,
+// _addFavoritestopIndexToRoute,
+// _removeFavoritestopIndexToRoute,
+EtaListItemProp) {
+  const {routeAllStopNamesWithEtas} = useRouteAllStopNamesWithEtas(route);
+  const stopNameWithEtas = routeAllStopNamesWithEtas[index];
+
+  const routeToFavoriteStopIndices = useDataStore(store => store.routeToFavoriteStopIndices);
+  const isFavorite = routeToFavoriteStopIndices.get(route)?.includes(index) ?? false;
+
+  const addFavoritestopIndexToRoute = useDataStore(store => store.addFavoritestopIndexToRoute);
+  const removeFavoritestopIndexToRoute = useDataStore(
+    store => store.removeFavoritestopIndexToRoute
+  );
+
   return (
     <View
-      key={index}
       style={{
-        height: '100%',
+        height: 100,
 
         flexDirection: 'row',
         paddingVertical: 5,
@@ -60,8 +75,8 @@ export default function EtaListItem({
         <TouchableOpacity
           style={{flex: 1, paddingHorizontal: 30, justifyContent: 'center'}}
           onPress={() => {
-            if (isFavorite) _removeFavoritestopIndexToRoute(index);
-            else _addFavoritestopIndexToRoute(index);
+            if (isFavorite) removeFavoritestopIndexToRoute(index, route);
+            else addFavoritestopIndexToRoute(index, route);
           }}
         >
           <FontAwesome

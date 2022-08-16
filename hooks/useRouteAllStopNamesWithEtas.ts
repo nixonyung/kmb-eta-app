@@ -18,16 +18,15 @@ export default function useRouteAllStopNamesWithEtas({route, bound, service_type
   }, []);
 
   // get all stop names of the given route
-  const stopIdListResult = useQuery([
-    'route-stop',
-    route,
-    bound == 'I' ? 'inbound' : 'outbound',
-    service_type,
-  ]);
+  const stopIdListResult = useQuery(
+    ['route-stop', route, bound == 'I' ? 'inbound' : 'outbound', service_type],
+    {staleTime: Infinity}
+  );
 
   const stopInfoListResult = useQueries({
     queries: getKmbDataOrDefault(stopIdListResult, []).map((it: any) => ({
       queryKey: ['stop', it.stop],
+      staleTime: Infinity,
     })),
   });
 

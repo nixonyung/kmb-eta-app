@@ -1,27 +1,14 @@
 import _ from 'lodash';
-import {Dimensions, Pressable, StyleSheet, Text} from 'react-native';
+import {ActivityIndicator, Dimensions, Pressable, StyleSheet, Text} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import EtaListItem from '../components/EtaListItem';
 import {View} from '../components/Themed';
-import useDataStore from '../hooks/useDataStore';
 import useRouteAllStopNamesWithEtas from '../hooks/useRouteAllStopNamesWithEtas';
 import {RootStackScreenProps} from '../navigation/types';
-import StopNameWithEtas from '../schemas/StopNameWithEtas';
 
 export default function ModalScreen({route, navigation}: RootStackScreenProps<'Modal'>) {
   const {width} = Dimensions.get('window');
   const {isSuccess, routeAllStopNamesWithEtas} = useRouteAllStopNamesWithEtas(route.params);
-
-  const routeToFavoritestopIndices = useDataStore(
-    store => store.routeToFavoritestopIndices,
-    _.isEqual
-  );
-  const favoritestopIndices = routeToFavoritestopIndices.get(route.params);
-
-  const addFavoritestopIndexToRoute = useDataStore(store => store.addFavoritestopIndexToRoute);
-  const removeFavoritestopIndexToRoute = useDataStore(
-    store => store.removeFavoritestopIndexToRoute
-  );
 
   return (
     <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
@@ -50,9 +37,9 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
         {isSuccess ? (
           <RecyclerListView
             style={{flex: 1}}
-            dataProvider={new DataProvider(
-              (it1: StopNameWithEtas, it2: StopNameWithEtas) => it1.name_tc !== it2.name_tc
-            ).cloneWithRows(routeAllStopNamesWithEtas)}
+            dataProvider={new DataProvider((lhs: number, rhs: number) => lhs !== rhs).cloneWithRows(
+              _.range(0, routeAllStopNamesWithEtas.length)
+            )}
             layoutProvider={_(
               new LayoutProvider(
                 index => 0,
@@ -66,26 +53,17 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
               // lodash.tap to modify properties inplace
               .tap(it => (it.shouldRefreshWithAnchoring = false))
               .value()}
-            rowRenderer={(type, item: StopNameWithEtas, index) => (
+            rowRenderer={(type, item: number) => (
+              // item === index
               <EtaListItem
-                index={index}
-                stopNameWithEtas={item}
-                isFavorite={favoritestopIndices?.includes(index)}
-                _addFavoritestopIndexToRoute={_.partialRight(
-                  addFavoritestopIndexToRoute,
-                  route.params
-                )}
-                _removeFavoritestopIndexToRoute={_.partialRight(
-                  removeFavoritestopIndexToRoute,
-                  route.params
-                )}
+                key={`${route.params.route}-${item}`}
+                index={item}
+                route={route.params}
               />
             )}
           />
         ) : (
-          <Text style={{paddingTop: 40, fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>
-            Loading...
-          </Text>
+          <ActivityIndicator size="large" style={{marginTop: 40}} />
         )}
       </View>
     </View>
