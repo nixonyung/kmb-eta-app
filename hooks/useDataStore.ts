@@ -33,12 +33,14 @@ const useDataStore = create<StoreState>()(set => ({
 
   loadRouteToFavoriteStopIndices: async () => {
     const routeToFavoriteStopIndices = new Map();
-    const storedKeys = await AsyncStorage.getAllKeys();
+    const storedFavoriteKeys = (await AsyncStorage.getAllKeys()).filter(s =>
+      s.match(/favorites_.+_\d_[IO]_\d+/)
+    );
 
     set(state => {
       if (state.routes === undefined) return {};
 
-      _(storedKeys)
+      _(storedFavoriteKeys)
         .groupBy(s => s.slice(0, s.lastIndexOf('_')))
         .forEach((v, k) => {
           const [route, service_type, bound] = k.split('_').slice(1);

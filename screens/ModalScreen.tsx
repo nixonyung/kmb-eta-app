@@ -1,8 +1,8 @@
 import _ from 'lodash';
-import {ActivityIndicator, Dimensions, Pressable, StyleSheet, Text} from 'react-native';
+import {ActivityIndicator, Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import EtaListItem from '../components/EtaListItem';
-import {View} from '../components/Themed';
+import ThemeColors from '../constants/ThemeColors';
 import useRouteAllStopNamesWithEtas from '../hooks/useRouteAllStopNamesWithEtas';
 import {RootStackScreenProps} from '../navigation/types';
 
@@ -14,7 +14,10 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
     <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
       {/* Overlay */}
       <Pressable
-        style={[StyleSheet.absoluteFill, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}
+        style={[
+          StyleSheet.absoluteFill,
+          {backgroundColor: ThemeColors.light.etaModalOverlayBackground},
+        ]}
         onPress={navigation.goBack}
       />
 
@@ -23,7 +26,7 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
         style={{
           borderTopStartRadius: 10,
           borderTopEndRadius: 10,
-          backgroundColor: 'white',
+          backgroundColor: ThemeColors.light.etaModalHeaderBackground,
         }}
       >
         <Text style={{marginVertical: 10, fontSize: 18, textAlign: 'center'}}>
@@ -33,7 +36,7 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
       </View>
 
       {/* ETA list */}
-      <View style={{height: 320, backgroundColor: '#a2c5fa'}}>
+      <View style={{height: 320, backgroundColor: ThemeColors.light.etaListBackground}}>
         {isSuccess ? (
           <RecyclerListView
             style={{flex: 1}}
@@ -63,7 +66,11 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
             )}
           />
         ) : (
-          <ActivityIndicator size="large" color="white" style={{marginTop: 40}} />
+          <ActivityIndicator
+            size="large"
+            color={ThemeColors.light.loadingIndicator}
+            style={{marginTop: 40}}
+          />
         )}
       </View>
     </View>

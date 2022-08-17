@@ -2,6 +2,7 @@ import {FontAwesome} from '@expo/vector-icons';
 import _ from 'lodash';
 import {Text, TouchableOpacity, Vibration, View} from 'react-native';
 import Toast from 'react-native-root-toast';
+import ThemeColors from '../constants/ThemeColors';
 import useDataStore from '../hooks/useDataStore';
 import useRouteAllStopNamesWithEtas from '../hooks/useRouteAllStopNamesWithEtas';
 import Route from '../schemas/Route';
@@ -33,8 +34,8 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
         paddingVertical: 5,
         paddingLeft: 20,
         borderWidth: 1,
-        borderColor: '#666666',
-        backgroundColor: '#a2c5fa',
+        borderColor: ThemeColors.light.etaListItemBorder,
+        backgroundColor: ThemeColors.light.etaListItemBackground,
       }}
     >
       {isSuccess && (
@@ -55,7 +56,13 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
             ) : (
               stopNameWithEtas.eta.map((etaText, index) => (
                 <Text
-                  style={{marginLeft: 30, color: etaText[0] === '-' ? '#ff2222' : 'black'}}
+                  style={{
+                    marginLeft: 30,
+                    color:
+                      etaText[0] === '-'
+                        ? ThemeColors.light.etaListItemLateText
+                        : ThemeColors.light.etaListItemText,
+                  }}
                   key={index}
                 >
                   {etaText}
@@ -90,7 +97,11 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
               <FontAwesome
                 size={30}
                 name={isFavorite ? 'star' : 'star-o'}
-                color={isFavorite ? '#ffdc00' : '#aaaaaa66'}
+                color={
+                  isFavorite
+                    ? ThemeColors.light.etaListItemStarActive
+                    : ThemeColors.light.etaListItemStarInactive
+                }
               />
             </TouchableOpacity>
           </View>

@@ -10,7 +10,7 @@ import * as React from 'react';
 import {ColorSchemeName, Pressable} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import Colors from '../constants/Colors';
+import ThemeColors from '../constants/ThemeColors';
 import useColorScheme from '../hooks/useColorScheme';
 import useDataStore from '../hooks/useDataStore';
 import ModalScreen from '../screens/ModalScreen';
@@ -74,7 +74,9 @@ function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="TabOne"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarActiveTintColor: ThemeColors.light.tabBarActiveTintColor,
+        tabBarActiveBackgroundColor: ThemeColors.light.tabBarActiveBackgroundColor,
+        tabBarInactiveBackgroundColor: ThemeColors.light.tabBarInactiveBackgroundColor,
       }}
     >
       <BottomTab.Screen

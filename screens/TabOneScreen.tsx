@@ -1,8 +1,17 @@
 import {SearchBar} from '@rneui/themed';
 import {useState} from 'react';
-import {Dimensions, Keyboard, Text, TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Keyboard,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
+import ThemeColors from '../constants/ThemeColors';
 import useDataStore from '../hooks/useDataStore';
 import {RootTabScreenProps} from '../navigation/types';
 import Route from '../schemas/Route';
@@ -23,7 +32,7 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
       <SafeAreaView
         style={{
           flex: 1,
-          backgroundColor: 'white',
+          backgroundColor: ThemeColors.light.screenBackground,
         }}
       >
         <SearchBar
@@ -35,47 +44,63 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
             marginHorizontal: 20,
             marginBottom: 30,
             padding: 3,
-            backgroundColor: '#888888',
+            backgroundColor: ThemeColors.light.textInputBorder,
           }}
-          inputContainerStyle={{backgroundColor: 'white'}}
+          inputContainerStyle={{backgroundColor: ThemeColors.light.textInputBackground}}
         />
 
-        {filteredRoutes != undefined && filteredRoutes.length !== 0 && (
-          <RecyclerListView
-            style={{flex: 1, width: '100%', height: 'auto'}}
-            dataProvider={new DataProvider((it1, it2) => it1 !== it2).cloneWithRows(filteredRoutes)}
-            layoutProvider={
-              new LayoutProvider(
-                index => 0,
+        <View
+          style={{
+            flex: 1,
+            width: '100%',
+            height: '100%',
+            backgroundColor: ThemeColors.light.routeListBackground,
+          }}
+        >
+          {routes === undefined ? (
+            <ActivityIndicator color={ThemeColors.light.loadingIndicator} />
+          ) : (
+            filteredRoutes !== undefined &&
+            filteredRoutes.length !== 0 && (
+              <RecyclerListView
+                style={{flex: 1}}
+                dataProvider={new DataProvider((it1, it2) => it1 !== it2).cloneWithRows(
+                  filteredRoutes
+                )}
+                layoutProvider={
+                  new LayoutProvider(
+                    index => 0,
 
-                (type, dim) => {
-                  dim.width = width;
-                  dim.height = 40;
+                    (type, dim) => {
+                      dim.width = width;
+                      dim.height = 40;
+                    }
+                  )
                 }
-              )
-            }
-            rowRenderer={(type, it: Route) => (
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Modal', it)}
-                style={{
-                  flex: 1,
-                  paddingHorizontal: 20,
-                  borderWidth: 1,
-                  borderColor: '#666666',
-                  backgroundColor: '#a2c5fa',
-                }}
-              >
-                <Text style={{fontSize: 20}}>
-                  {it.route.padEnd(6, ' ')}
-                  {'\t'}
-                  &nbsp;往&nbsp;
-                  {it.dest_tc}
-                  {it.service_type === '1' ? '' : '  (特別班)'}
-                </Text>
-              </TouchableOpacity>
-            )}
-          />
-        )}
+                rowRenderer={(type, it: Route) => (
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('Modal', it)}
+                    style={{
+                      flex: 1,
+                      paddingHorizontal: 20,
+                      borderWidth: 1,
+                      borderColor: ThemeColors.light.routeListItemBorder,
+                      backgroundColor: ThemeColors.light.routeListItemBackground,
+                    }}
+                  >
+                    <Text style={{fontSize: 20}}>
+                      {it.route.padEnd(6, ' ')}
+                      {'\t'}
+                      &nbsp;往&nbsp;
+                      {it.dest_tc}
+                      {it.service_type === '1' ? '' : '  (特別班)'}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              />
+            )
+          )}
+        </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
