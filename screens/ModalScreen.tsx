@@ -28,7 +28,14 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
           backgroundColor: ThemeColors.etaModalHeaderBackground,
         }}
       >
-        <Text style={{marginVertical: 10, fontSize: 18, textAlign: 'center'}}>
+        <Text
+          style={{
+            marginVertical: 10,
+            fontSize: 18,
+            textAlign: 'center',
+            color: ThemeColors.etaModalHeaderText,
+          }}
+        >
           {route.params.route} 往 {route.params.dest_tc}
           {route.params.service_type === '1' ? '' : ' (特別班)'}
         </Text>

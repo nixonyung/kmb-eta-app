@@ -60,7 +60,7 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
           }}
         >
           {routes === undefined ? (
-            <ActivityIndicator color={ThemeColors.loadingIndicator} />
+            <ActivityIndicator style={{marginTop: 40}} color={ThemeColors.loadingIndicator} />
           ) : (
             filteredRoutes !== undefined &&
             filteredRoutes.length !== 0 && (
@@ -90,7 +90,7 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
                       backgroundColor: ThemeColors.routeListItemBackground,
                     }}
                   >
-                    <Text style={{fontSize: 20}}>
+                    <Text style={{fontSize: 20, color: ThemeColors.routeListItemText}}>
                       {it.route.padEnd(6, ' ')}
                       {'\t'}
                       &nbsp;往&nbsp;

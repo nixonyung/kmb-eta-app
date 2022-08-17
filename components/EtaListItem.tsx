@@ -44,12 +44,19 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
         <>
           <View>
             {routeNameShown && (
-              <Text style={{marginVertical: 5, fontSize: 20, fontWeight: 'bold'}}>
+              <Text
+                style={{
+                  marginVertical: 5,
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  color: ThemeColors.etaListItemText,
+                }}
+              >
                 {route.route}
               </Text>
             )}
 
-            <Text style={{fontSize: 18}}>
+            <Text style={{fontSize: 18, color: ThemeColors.etaListItemText}}>
               {index + 1}. {stopNameWithEtas.name_tc}
             </Text>
 
