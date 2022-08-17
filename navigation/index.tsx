@@ -10,6 +10,7 @@ import * as React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
+import Toast from 'react-native-root-toast';
 import useDataStore from '../hooks/useDataStore';
 import useThemeColors from '../hooks/useThemeColors';
 import ModalScreen from '../screens/ModalScreen';
@@ -93,6 +94,11 @@ function BottomTabNavigator() {
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
                 onPress={async () => {
+                  Toast.show(isDarkMode ? 'Disabling dark mode...' : 'Enabling dark mode...', {
+                    position: -75,
+                    duration: 1000,
+                    shadow: false,
+                  });
                   await toggleIsDarkMode();
                 }}
                 style={{marginRight: 25}}
