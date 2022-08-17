@@ -7,9 +7,9 @@ import {Feather, FontAwesome} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
-import {TouchableOpacity, View} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
+import {TouchableOpacity, View} from 'react-native';
 import Toast from 'react-native-root-toast';
 import useDataStore from '../hooks/useDataStore';
 import useThemeColors from '../hooks/useThemeColors';
@@ -82,6 +82,40 @@ function BottomTabNavigator() {
         tabBarActiveTintColor: ThemeColors.tabBarActiveTint,
         tabBarActiveBackgroundColor: ThemeColors.tabBarActiveBackground,
         tabBarInactiveBackgroundColor: ThemeColors.tabBarInactiveBackground,
+
+        headerRight: () => (
+          <View style={{flexDirection: 'row', marginRight: 15}}>
+            <TouchableOpacity
+              onPress={async () => {
+                Toast.show(isDarkMode ? 'Disabling dark mode...' : 'Enabling dark mode...', {
+                  position: -75,
+                  duration: 1000,
+                  shadow: false,
+                });
+                await toggleIsDarkMode();
+              }}
+              style={{height: '100%', paddingHorizontal: 10}}
+            >
+              <Feather
+                name={isDarkMode ? 'moon' : 'sun'}
+                size={20}
+                color={ThemeColors.headerIcon}
+              />
+            </TouchableOpacity>
+
+            <View style={{width: 5}} />
+
+            <TouchableOpacity
+              onPress={() => {
+                loadRoutes();
+                loadRouteToFavoriteStopIndices();
+              }}
+              style={{height: '100%', paddingHorizontal: 10}}
+            >
+              <Feather name="refresh-cw" size={20} color={ThemeColors.headerIcon} />
+            </TouchableOpacity>
+          </View>
+        ),
       }}
     >
       <BottomTab.Screen
@@ -90,39 +124,6 @@ function BottomTabNavigator() {
         options={({navigation}: RootTabScreenProps<'TabOne'>) => ({
           title: 'Routes',
           tabBarIcon: ({color}) => <TabBarIcon name="bus" color={color} />,
-          headerRight: () => (
-            <View style={{flexDirection: 'row', marginRight: 15}}>
-              <TouchableOpacity
-                onPress={async () => {
-                  Toast.show(isDarkMode ? 'Disabling dark mode...' : 'Enabling dark mode...', {
-                    position: -75,
-                    duration: 1000,
-                    shadow: false,
-                  });
-                  await toggleIsDarkMode();
-                }}
-                style={{height: '100%', paddingHorizontal: 10}}
-              >
-                <Feather
-                  name={isDarkMode ? 'moon' : 'sun'}
-                  size={20}
-                  color={ThemeColors.headerIcon}
-                />
-              </TouchableOpacity>
-
-              <View style={{width: 5}} />
-
-              <TouchableOpacity
-                onPress={() => {
-                  loadRoutes();
-                  loadRouteToFavoriteStopIndices();
-                }}
-                style={{height: '100%', paddingHorizontal: 10}}
-              >
-                <Feather name="refresh-cw" size={20} color={ThemeColors.headerIcon} />
-              </TouchableOpacity>
-            </View>
-          ),
         })}
       />
       <BottomTab.Screen
