@@ -30,14 +30,16 @@ const queryClient = new QueryClient({
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  const initRoutes = useDataStore(state => state.initRoutes);
+  const loadIsDarkMode = useDataStore(state => state.loadIsDarkMode);
+  const loadRoutes = useDataStore(state => state.loadRoutes);
   const loadRouteToFavoriteStopIndices = useDataStore(
     state => state.loadRouteToFavoriteStopIndices
   );
 
   useEffect(() => {
     (async function () {
-      await initRoutes();
+      await loadIsDarkMode();
+      await loadRoutes();
       await loadRouteToFavoriteStopIndices();
     })();
   }, []);

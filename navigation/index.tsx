@@ -7,7 +7,7 @@ import {FontAwesome} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {DarkTheme, DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
-import {ColorSchemeName, Pressable} from 'react-native';
+import {ColorSchemeName, TouchableOpacity, View} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import ThemeColors from '../constants/ThemeColors';
@@ -65,10 +65,12 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
-  const initRoutes = useDataStore(store => store.initRoutes);
+  const isDarkMode = useDataStore(store => store.isDarkMode);
+  const loadRoutes = useDataStore(store => store.loadRoutes);
   const loadRouteToFavoriteStopIndices = useDataStore(
     store => store.loadRouteToFavoriteStopIndices
   );
+  const toggleIsDarkMode = useDataStore(store => store.toggleIsDarkMode);
 
   return (
     <BottomTab.Navigator
@@ -86,17 +88,30 @@ function BottomTabNavigator() {
           title: 'Routes',
           tabBarIcon: ({color}) => <TabBarIcon name="bus" color={color} />,
           headerRight: () => (
-            <Pressable
-              onPress={() => {
-                initRoutes();
-                loadRouteToFavoriteStopIndices();
-              }}
-              style={({pressed}) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesome name="refresh" size={20} color="#222222" style={{marginRight: 15}} />
-            </Pressable>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                onPress={async () => {
+                  await toggleIsDarkMode();
+                }}
+                style={{marginRight: 25}}
+              >
+                <FontAwesome
+                  name={isDarkMode ? 'moon-o' : 'sun-o'}
+                  size={20}
+                  color={ThemeColors.light.headerIcon}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  loadRoutes();
+                  loadRouteToFavoriteStopIndices();
+                }}
+                style={{marginRight: 25}}
+              >
+                <FontAwesome name="refresh" size={20} color={ThemeColors.light.headerIcon} />
+              </TouchableOpacity>
+            </View>
           ),
         })}
       />

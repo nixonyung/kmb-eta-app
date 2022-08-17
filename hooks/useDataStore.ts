@@ -4,23 +4,34 @@ import create from 'zustand';
 import Route from '../schemas/Route';
 
 export interface StoreState {
+  isDarkMode: boolean;
   routes: Route[] | undefined;
   routeToStopNames: Map<Route, string[]>;
   routeToFavoriteStopIndices: Map<Route, number[]>;
 
-  initRoutes: () => void;
+  loadIsDarkMode: () => void;
+  loadRoutes: () => void;
   loadRouteToFavoriteStopIndices: () => void;
 
+  toggleIsDarkMode: () => void;
   addFavoritestopIndexToRoute: (index: number, route: Route) => void;
   removeFavoritestopIndexToRoute: (index: number, route: Route) => void;
 }
 
 const useDataStore = create<StoreState>()(set => ({
+  isDarkMode: true,
   routes: undefined,
   routeToStopNames: new Map(),
   routeToFavoriteStopIndices: new Map(),
 
-  initRoutes: async () => {
+  loadIsDarkMode: async () => {
+    const storedIsDarkMode = (await AsyncStorage.getAllKeys()).find(
+      k => k.match(/^darkMode$/) !== null
+    );
+    set(store => ({isDarkMode: storedIsDarkMode === '1'}));
+  },
+
+  loadRoutes: async () => {
     const res = await fetch('https://data.etabus.gov.hk/v1/transport/kmb/route');
     const data = await res.json();
 
@@ -31,10 +42,11 @@ const useDataStore = create<StoreState>()(set => ({
     }));
   },
 
+  // should run after loadRoutes
   loadRouteToFavoriteStopIndices: async () => {
     const routeToFavoriteStopIndices = new Map();
-    const storedFavoriteKeys = (await AsyncStorage.getAllKeys()).filter(s =>
-      s.match(/favorites_.+_\d_[IO]_\d+/)
+    const storedFavoriteKeys = (await AsyncStorage.getAllKeys()).filter(
+      k => k.match(/^favorites_.+_\d_[IO]_\d+$/) !== null
     );
 
     set(state => {
@@ -54,6 +66,17 @@ const useDataStore = create<StoreState>()(set => ({
     });
 
     // AsyncStorage.clear();
+  },
+
+  toggleIsDarkMode: async () => {
+    console.log('called');
+    let isDarkMode;
+    set(state => {
+      isDarkMode = !state.isDarkMode;
+      return {isDarkMode};
+    });
+
+    await AsyncStorage.setItem('darkMode', isDarkMode ? '1' : '0');
   },
 
   addFavoritestopIndexToRoute: async (index, route) => {

@@ -6,10 +6,11 @@ const ThemeColors = {
     tabBarActiveBackgroundColor: 'white',
     tabBarActiveTintColor: '#2f95dc',
 
+    headerIcon: '#222222',
     screenBackground: 'white',
     textInputBorder: '#888888',
     textInputBackground: 'white',
-    loadingIndicator: '#eeeeee',
+    loadingIndicator: '#444444',
 
     routeListBackground: 'white',
     routeListItemBorder: '#666666',
