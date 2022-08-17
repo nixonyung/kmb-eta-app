@@ -54,6 +54,7 @@ const useDataStore = create<StoreState>()(set => ({
       if (state.routes === undefined) return {};
 
       _(storedFavoriteKeys)
+        .sort((lhs, rhs) => lhs.localeCompare(rhs))
         .groupBy(s => s.slice(0, s.lastIndexOf('_')))
         .forEach((v, k) => {
           const [route, service_type, bound] = k.split('_').slice(1);

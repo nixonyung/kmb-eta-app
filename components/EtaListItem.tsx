@@ -52,7 +52,9 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
                   color: ThemeColors.etaListItemText,
                 }}
               >
-                {route.route}
+                {`${route.route.padEnd(6, ' ')}\t 往 ${route.dest_tc} ${
+                  route.service_type === '1' ? '' : '  (特別班)'
+                }`}
               </Text>
             )}
 
