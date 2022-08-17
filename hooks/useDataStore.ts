@@ -106,10 +106,13 @@ const useDataStore = create<StoreState>()(set => ({
       if (currentIndices === undefined) return {};
 
       const routeToFavoriteStopIndices = _.cloneDeep(state.routeToFavoriteStopIndices);
-      routeToFavoriteStopIndices.set(
-        route,
-        currentIndices.filter(_index => _index !== index)
-      );
+
+      const newIndices = currentIndices.filter(_index => _index !== index);
+      if (newIndices.length !== 0) {
+        routeToFavoriteStopIndices.set(route, newIndices);
+      } else {
+        routeToFavoriteStopIndices.delete(route);
+      }
 
       return {routeToFavoriteStopIndices};
     });

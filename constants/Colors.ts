@@ -11,13 +11,15 @@ const listItemBackgroundLight = '#a2c5fa';
 const listItemBackgroundDark = '#063275';
 const loadingIndicatorLight = '#444444';
 const loadingIndicatorDark = '#444444';
+const hintLight = '#cccccc';
+const hintDark = '#444444';
 
 // common settings
 const tabBarActiveTint = '#2f95dc';
 const etaModalOverlayBackground = 'rgba(0,0,0,0.7)';
 const etaListItemLateText = '#ff2222';
 const etaListItemStarActive = '#ffdc00';
-const etaListItemStarInactive = '#aaaaaaaa';
+const etaListItemStarInactive = '#888888aa';
 
 interface ColorsConfig {
   headerBackground: string;
@@ -32,6 +34,7 @@ interface ColorsConfig {
   textInputBorder: string;
   textInputBackground: string;
   loadingIndicator: string;
+  hint: string;
 
   routeListBackground: string;
   routeListItemBorder: string;
@@ -70,6 +73,7 @@ const Colors: Colors = {
     textInputBorder: borderLight,
     textInputBackground: primaryLight,
     loadingIndicator: loadingIndicatorLight,
+    hint: hintLight,
 
     routeListBackground: listItemBackgroundLight,
     routeListItemBorder: borderLight,
@@ -102,6 +106,7 @@ const Colors: Colors = {
     textInputBorder: borderDark,
     textInputBackground: primaryDark,
     loadingIndicator: loadingIndicatorDark,
+    hint: hintDark,
 
     routeListBackground: listItemBackgroundDark,
     routeListItemBorder: borderDark,
