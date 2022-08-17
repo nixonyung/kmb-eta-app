@@ -6,10 +6,10 @@
 import {FontAwesome} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {DarkTheme, DefaultTheme, NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {ColorSchemeName, Pressable} from 'react-native';
 
+import {createStackNavigator} from '@react-navigation/stack';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import useDataStore from '../hooks/useDataStore';
@@ -35,7 +35,7 @@ export default function Navigation({colorScheme}: {colorScheme: ColorSchemeName}
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
  */
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
