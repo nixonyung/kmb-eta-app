@@ -12,7 +12,7 @@ interface EtaListItemProp {
 }
 
 export default function EtaListItem({route, index, routeNameShown = false}: EtaListItemProp) {
-  const {routeAllStopNamesWithEtas} = useRouteAllStopNamesWithEtas(route);
+  const {isSuccess, routeAllStopNamesWithEtas} = useRouteAllStopNamesWithEtas(route);
   const stopNameWithEtas = routeAllStopNamesWithEtas[index];
 
   const routeToFavoriteStopIndices = useDataStore(store => store.routeToFavoriteStopIndices);
@@ -36,46 +36,52 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
         backgroundColor: '#a2c5fa',
       }}
     >
-      <View>
-        {routeNameShown && (
-          <Text style={{marginVertical: 5, fontSize: 20, fontWeight: 'bold'}}>{route.route}</Text>
-        )}
+      {isSuccess && (
+        <>
+          <View>
+            {routeNameShown && (
+              <Text style={{marginVertical: 5, fontSize: 20, fontWeight: 'bold'}}>
+                {route.route}
+              </Text>
+            )}
 
-        <Text style={{fontSize: 18}}>
-          {index + 1}. {stopNameWithEtas.name_tc}
-        </Text>
-
-        {_.isEmpty(stopNameWithEtas.eta) ? (
-          <Text style={{marginTop: 10, marginLeft: 30, fontSize: 18}}>暫沒有班次</Text>
-        ) : (
-          stopNameWithEtas.eta.map((etaText, index) => (
-            <Text
-              style={{marginLeft: 30, color: etaText[0] === '-' ? '#ff2222' : 'black'}}
-              key={index}
-            >
-              {etaText}
+            <Text style={{fontSize: 18}}>
+              {index + 1}. {stopNameWithEtas.name_tc}
             </Text>
-          ))
-        )}
-      </View>
 
-      <View style={{flex: 1}} />
+            {_.isEmpty(stopNameWithEtas.eta) ? (
+              <Text style={{marginTop: 10, marginLeft: 30, fontSize: 18}}>暫沒有班次</Text>
+            ) : (
+              stopNameWithEtas.eta.map((etaText, index) => (
+                <Text
+                  style={{marginLeft: 30, color: etaText[0] === '-' ? '#ff2222' : 'black'}}
+                  key={index}
+                >
+                  {etaText}
+                </Text>
+              ))
+            )}
+          </View>
 
-      <View style={{height: '100%'}}>
-        <TouchableOpacity
-          style={{flex: 1, paddingHorizontal: 30, justifyContent: 'center'}}
-          onPress={() => {
-            if (isFavorite) removeFavoritestopIndexToRoute(index, route);
-            else addFavoritestopIndexToRoute(index, route);
-          }}
-        >
-          <FontAwesome
-            size={30}
-            name={isFavorite ? 'star' : 'star-o'}
-            color={isFavorite ? '#ffdc00' : '#aaaaaa66'}
-          />
-        </TouchableOpacity>
-      </View>
+          <View style={{flex: 1}} />
+
+          <View style={{height: '100%'}}>
+            <TouchableOpacity
+              style={{flex: 1, paddingHorizontal: 30, justifyContent: 'center'}}
+              onPress={() => {
+                if (isFavorite) removeFavoritestopIndexToRoute(index, route);
+                else addFavoritestopIndexToRoute(index, route);
+              }}
+            >
+              <FontAwesome
+                size={30}
+                name={isFavorite ? 'star' : 'star-o'}
+                color={isFavorite ? '#ffdc00' : '#aaaaaa66'}
+              />
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </View>
   );
 }

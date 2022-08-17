@@ -1,6 +1,5 @@
 import {focusManager, QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {StatusBar} from 'expo-status-bar';
-import _ from 'lodash';
 import {useEffect} from 'react';
 import {AppState, Platform} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -31,19 +30,18 @@ export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
   const initRoutes = useDataStore(state => state.initRoutes);
+  const loadRouteToFavoriteStopIndices = useDataStore(
+    state => state.loadRouteToFavoriteStopIndices
+  );
 
   useEffect(() => {
-    fetch('https://data.etabus.gov.hk/v1/transport/kmb/route')
-      .then(res => res.json())
-      .then(data =>
-        initRoutes(
-          data.data.map((d: any) =>
-            _.pick(d, ['route', 'bound', 'service_type', 'orig_tc', 'dest_tc'])
-          )
-        )
-      );
+    (async function () {
+      await initRoutes();
+      await loadRouteToFavoriteStopIndices();
+    })();
   }, []);
 
+  // React Query refetch on focusing app
   useEffect(() => {
     const subscription = AppState.addEventListener('change', status => {
       if (Platform.OS !== 'web') {
