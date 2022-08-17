@@ -25,9 +25,7 @@ const useDataStore = create<StoreState>()(set => ({
   routeToFavoriteStopIndices: new Map(),
 
   loadIsDarkMode: async () => {
-    const storedIsDarkMode = (await AsyncStorage.getAllKeys()).find(
-      k => k.match(/^darkMode$/) !== null
-    );
+    const storedIsDarkMode = await AsyncStorage.getItem('isDarkMode');
     set(store => ({isDarkMode: storedIsDarkMode === '1'}));
   },
 
@@ -69,14 +67,14 @@ const useDataStore = create<StoreState>()(set => ({
   },
 
   toggleIsDarkMode: async () => {
-    console.log('called');
     let isDarkMode;
     set(state => {
       isDarkMode = !state.isDarkMode;
       return {isDarkMode};
     });
 
-    await AsyncStorage.setItem('darkMode', isDarkMode ? '1' : '0');
+    await AsyncStorage.setItem('isDarkMode', isDarkMode ? '1' : '0');
+    console.log(await AsyncStorage.getItem('isDarkMode'));
   },
 
   addFavoritestopIndexToRoute: async (index, route) => {

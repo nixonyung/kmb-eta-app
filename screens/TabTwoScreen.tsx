@@ -1,17 +1,16 @@
-import {useQueries} from '@tanstack/react-query';
 import {ScrollView} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import EtaListItem from '../components/EtaListItem';
-import ThemeColors from '../constants/ThemeColors';
 import useDataStore from '../hooks/useDataStore';
+import useThemeColors from '../hooks/useThemeColors';
 
 export default function TabTwoScreen() {
   const routeToFavoriteStopIndices = useDataStore(store => store.routeToFavoriteStopIndices);
 
-  useQueries({queries: [...routeToFavoriteStopIndices.keys()].map(route => ({queryKey: []}))});
+  const ThemeColors = useThemeColors();
 
   return (
-    <SafeAreaProvider style={{flex: 1, backgroundColor: ThemeColors.light.screenBackground}}>
+    <SafeAreaProvider style={{flex: 1, backgroundColor: ThemeColors.screenBackground}}>
       <ScrollView style={{flex: 1}}>
         {[...routeToFavoriteStopIndices].flatMap(([route, indices]) =>
           indices.map(index => (

@@ -2,22 +2,21 @@ import _ from 'lodash';
 import {ActivityIndicator, Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
 import EtaListItem from '../components/EtaListItem';
-import ThemeColors from '../constants/ThemeColors';
 import useRouteAllStopNamesWithEtas from '../hooks/useRouteAllStopNamesWithEtas';
+import useThemeColors from '../hooks/useThemeColors';
 import {RootStackScreenProps} from '../navigation/types';
 
 export default function ModalScreen({route, navigation}: RootStackScreenProps<'Modal'>) {
   const {width} = Dimensions.get('window');
   const {isSuccess, routeAllStopNamesWithEtas} = useRouteAllStopNamesWithEtas(route.params);
 
+  const ThemeColors = useThemeColors();
+
   return (
     <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
       {/* Overlay */}
       <Pressable
-        style={[
-          StyleSheet.absoluteFill,
-          {backgroundColor: ThemeColors.light.etaModalOverlayBackground},
-        ]}
+        style={[StyleSheet.absoluteFill, {backgroundColor: ThemeColors.etaModalOverlayBackground}]}
         onPress={navigation.goBack}
       />
 
@@ -26,7 +25,7 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
         style={{
           borderTopStartRadius: 10,
           borderTopEndRadius: 10,
-          backgroundColor: ThemeColors.light.etaModalHeaderBackground,
+          backgroundColor: ThemeColors.etaModalHeaderBackground,
         }}
       >
         <Text style={{marginVertical: 10, fontSize: 18, textAlign: 'center'}}>
@@ -36,7 +35,7 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
       </View>
 
       {/* ETA list */}
-      <View style={{height: 320, backgroundColor: ThemeColors.light.etaListBackground}}>
+      <View style={{height: 320, backgroundColor: ThemeColors.etaListBackground}}>
         {isSuccess ? (
           <RecyclerListView
             style={{flex: 1}}
@@ -68,7 +67,7 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
         ) : (
           <ActivityIndicator
             size="large"
-            color={ThemeColors.light.loadingIndicator}
+            color={ThemeColors.loadingIndicator}
             style={{marginTop: 40}}
           />
         )}

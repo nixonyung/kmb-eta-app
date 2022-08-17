@@ -10,9 +10,9 @@ import * as React from 'react';
 import {ColorSchemeName, TouchableOpacity, View} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import ThemeColors from '../constants/ThemeColors';
 import useColorScheme from '../hooks/useColorScheme';
 import useDataStore from '../hooks/useDataStore';
+import useThemeColors from '../hooks/useThemeColors';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
@@ -72,13 +72,15 @@ function BottomTabNavigator() {
   );
   const toggleIsDarkMode = useDataStore(store => store.toggleIsDarkMode);
 
+  const ThemeColors = useThemeColors();
+
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
       screenOptions={{
-        tabBarActiveTintColor: ThemeColors.light.tabBarActiveTintColor,
-        tabBarActiveBackgroundColor: ThemeColors.light.tabBarActiveBackgroundColor,
-        tabBarInactiveBackgroundColor: ThemeColors.light.tabBarInactiveBackgroundColor,
+        tabBarActiveTintColor: ThemeColors.tabBarActiveTintColor,
+        tabBarActiveBackgroundColor: ThemeColors.tabBarActiveBackgroundColor,
+        tabBarInactiveBackgroundColor: ThemeColors.tabBarInactiveBackgroundColor,
       }}
     >
       <BottomTab.Screen
@@ -98,7 +100,7 @@ function BottomTabNavigator() {
                 <FontAwesome
                   name={isDarkMode ? 'moon-o' : 'sun-o'}
                   size={20}
-                  color={ThemeColors.light.headerIcon}
+                  color={ThemeColors.headerIcon}
                 />
               </TouchableOpacity>
 
@@ -109,7 +111,7 @@ function BottomTabNavigator() {
                 }}
                 style={{marginRight: 25}}
               >
-                <FontAwesome name="refresh" size={20} color={ThemeColors.light.headerIcon} />
+                <FontAwesome name="refresh" size={20} color={ThemeColors.headerIcon} />
               </TouchableOpacity>
             </View>
           ),

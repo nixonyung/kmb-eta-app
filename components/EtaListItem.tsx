@@ -2,9 +2,9 @@ import {FontAwesome} from '@expo/vector-icons';
 import _ from 'lodash';
 import {Text, TouchableOpacity, Vibration, View} from 'react-native';
 import Toast from 'react-native-root-toast';
-import ThemeColors from '../constants/ThemeColors';
 import useDataStore from '../hooks/useDataStore';
 import useRouteAllStopNamesWithEtas from '../hooks/useRouteAllStopNamesWithEtas';
+import useThemeColors from '../hooks/useThemeColors';
 import Route from '../schemas/Route';
 
 interface EtaListItemProp {
@@ -25,6 +25,8 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
     store => store.removeFavoritestopIndexToRoute
   );
 
+  const ThemeColors = useThemeColors();
+
   return (
     <View
       style={{
@@ -34,8 +36,8 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
         paddingVertical: 5,
         paddingLeft: 20,
         borderWidth: 1,
-        borderColor: ThemeColors.light.etaListItemBorder,
-        backgroundColor: ThemeColors.light.etaListItemBackground,
+        borderColor: ThemeColors.etaListItemBorder,
+        backgroundColor: ThemeColors.etaListItemBackground,
       }}
     >
       {isSuccess && (
@@ -60,8 +62,8 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
                     marginLeft: 30,
                     color:
                       etaText[0] === '-'
-                        ? ThemeColors.light.etaListItemLateText
-                        : ThemeColors.light.etaListItemText,
+                        ? ThemeColors.etaListItemLateText
+                        : ThemeColors.etaListItemText,
                   }}
                   key={index}
                 >
@@ -99,8 +101,8 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
                 name={isFavorite ? 'star' : 'star-o'}
                 color={
                   isFavorite
-                    ? ThemeColors.light.etaListItemStarActive
-                    : ThemeColors.light.etaListItemStarInactive
+                    ? ThemeColors.etaListItemStarActive
+                    : ThemeColors.etaListItemStarInactive
                 }
               />
             </TouchableOpacity>

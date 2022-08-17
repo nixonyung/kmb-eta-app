@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {DataProvider, LayoutProvider, RecyclerListView} from 'recyclerlistview';
-import ThemeColors from '../constants/ThemeColors';
 import useDataStore from '../hooks/useDataStore';
+import useThemeColors from '../hooks/useThemeColors';
 import {RootTabScreenProps} from '../navigation/types';
 import Route from '../schemas/Route';
 
@@ -27,12 +27,14 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
     setSearchText(searchText);
   };
 
+  const ThemeColors = useThemeColors();
+
   return (
     <TouchableWithoutFeedback style={{flex: 1}} onPress={Keyboard.dismiss}>
       <SafeAreaView
         style={{
           flex: 1,
-          backgroundColor: ThemeColors.light.screenBackground,
+          backgroundColor: ThemeColors.screenBackground,
         }}
       >
         <SearchBar
@@ -44,9 +46,9 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
             marginHorizontal: 20,
             marginBottom: 30,
             padding: 3,
-            backgroundColor: ThemeColors.light.textInputBorder,
+            backgroundColor: ThemeColors.textInputBorder,
           }}
-          inputContainerStyle={{backgroundColor: ThemeColors.light.textInputBackground}}
+          inputContainerStyle={{backgroundColor: ThemeColors.textInputBackground}}
         />
 
         <View
@@ -54,11 +56,11 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
             flex: 1,
             width: '100%',
             height: '100%',
-            backgroundColor: ThemeColors.light.routeListBackground,
+            backgroundColor: ThemeColors.routeListBackground,
           }}
         >
           {routes === undefined ? (
-            <ActivityIndicator color={ThemeColors.light.loadingIndicator} />
+            <ActivityIndicator color={ThemeColors.loadingIndicator} />
           ) : (
             filteredRoutes !== undefined &&
             filteredRoutes.length !== 0 && (
@@ -84,8 +86,8 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
                       flex: 1,
                       paddingHorizontal: 20,
                       borderWidth: 1,
-                      borderColor: ThemeColors.light.routeListItemBorder,
-                      backgroundColor: ThemeColors.light.routeListItemBackground,
+                      borderColor: ThemeColors.routeListItemBorder,
+                      backgroundColor: ThemeColors.routeListItemBackground,
                     }}
                   >
                     <Text style={{fontSize: 20}}>
