@@ -33,7 +33,7 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
       </View>
 
       {/* ETA list */}
-      <View style={{height: 320, backgroundColor: 'white'}}>
+      <View style={{height: 320, backgroundColor: '#a2c5fa'}}>
         {isSuccess ? (
           <RecyclerListView
             style={{flex: 1}}
@@ -63,7 +63,7 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
             )}
           />
         ) : (
-          <ActivityIndicator size="large" style={{marginTop: 40}} />
+          <ActivityIndicator size="large" color="white" style={{marginTop: 40}} />
         )}
       </View>
     </View>
