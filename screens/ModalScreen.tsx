@@ -14,7 +14,7 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
     <View style={{flex: 1, justifyContent: 'flex-end', backgroundColor: 'transparent'}}>
       {/* Overlay */}
       <Pressable
-        style={[StyleSheet.absoluteFill, {backgroundColor: 'rgba(0, 0, 0, 0.5)'}]}
+        style={[StyleSheet.absoluteFill, {backgroundColor: 'rgba(0, 0, 0, 0.7)'}]}
         onPress={navigation.goBack}
       />
 
