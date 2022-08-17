@@ -65,7 +65,7 @@ export default function ModalScreen({route, navigation}: RootStackScreenProps<'M
             rowRenderer={(type, item: number) => (
               // item === index
               <EtaListItem
-                key={`${route.params.route}-${item}`}
+                key={`${route.params.route}_${item}`}
                 index={item}
                 route={route.params}
               />
