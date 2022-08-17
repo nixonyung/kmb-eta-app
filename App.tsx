@@ -6,7 +6,6 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {RootSiblingParent} from 'react-native-root-siblings';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
 import useDataStore from './hooks/useDataStore';
 import Navigation from './navigation';
 
@@ -29,7 +28,7 @@ const queryClient = new QueryClient({
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
+  const isDarkMode = useDataStore(state => state.isDarkMode);
   const loadIsDarkMode = useDataStore(state => state.loadIsDarkMode);
   const loadRoutes = useDataStore(state => state.loadRoutes);
   const loadRouteToFavoriteStopIndices = useDataStore(
@@ -63,8 +62,8 @@ export default function App() {
         <GestureHandlerRootView style={{flex: 1}}>
           <RootSiblingParent>
             <SafeAreaProvider>
-              <Navigation colorScheme={colorScheme} />
-              <StatusBar />
+              <Navigation />
+              <StatusBar style={isDarkMode ? 'light' : 'dark'} />
             </SafeAreaProvider>
           </RootSiblingParent>
         </GestureHandlerRootView>

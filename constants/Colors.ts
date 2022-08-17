@@ -1,3 +1,4 @@
+// scheme-depending settings
 const primaryLight = 'white';
 const primaryDark = 'black';
 const secondaryLight = '#eeeeee';
@@ -11,6 +12,7 @@ const listItemBackgroundDark = '#063275';
 const loadingIndicatorLight = '#444444';
 const loadingIndicatorDark = '#444444';
 
+// common settings
 const tabBarActiveTint = '#2f95dc';
 const etaModalOverlayBackground = 'rgba(0,0,0,0.7)';
 const etaListItemLateText = '#ff2222';

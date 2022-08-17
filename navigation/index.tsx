@@ -5,12 +5,11 @@
  */
 import {FontAwesome} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {DarkTheme, DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
-import {ColorSchemeName, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import useColorScheme from '../hooks/useColorScheme';
 import useDataStore from '../hooks/useDataStore';
 import useThemeColors from '../hooks/useThemeColors';
 import ModalScreen from '../screens/ModalScreen';
@@ -20,12 +19,9 @@ import TabTwoScreen from '../screens/TabTwoScreen';
 import LinkingConfiguration from './LinkingConfiguration';
 import {RootStackParamList, RootTabParamList, RootTabScreenProps} from './types';
 
-export default function Navigation({colorScheme}: {colorScheme: ColorSchemeName}) {
+export default function Navigation() {
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-    >
+    <NavigationContainer linking={LinkingConfiguration}>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -63,8 +59,6 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
   const isDarkMode = useDataStore(store => store.isDarkMode);
   const loadRoutes = useDataStore(store => store.loadRoutes);
   const loadRouteToFavoriteStopIndices = useDataStore(

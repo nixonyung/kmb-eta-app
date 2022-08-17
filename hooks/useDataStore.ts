@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import _ from 'lodash';
+import {Appearance} from 'react-native';
 import create from 'zustand';
 import Route from '../schemas/Route';
 
@@ -19,14 +20,16 @@ export interface StoreState {
 }
 
 const useDataStore = create<StoreState>()(set => ({
-  isDarkMode: true,
+  isDarkMode: Appearance.getColorScheme() === 'dark',
   routes: undefined,
   routeToStopNames: new Map(),
   routeToFavoriteStopIndices: new Map(),
 
   loadIsDarkMode: async () => {
     const storedIsDarkMode = await AsyncStorage.getItem('isDarkMode');
-    set(store => ({isDarkMode: storedIsDarkMode === '1'}));
+    if (storedIsDarkMode !== null) {
+      set(store => ({isDarkMode: storedIsDarkMode === '1'}));
+    }
   },
 
   loadRoutes: async () => {
@@ -74,7 +77,6 @@ const useDataStore = create<StoreState>()(set => ({
     });
 
     await AsyncStorage.setItem('isDarkMode', isDarkMode ? '1' : '0');
-    console.log(await AsyncStorage.getItem('isDarkMode'));
   },
 
   addFavoritestopIndexToRoute: async (index, route) => {
