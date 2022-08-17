@@ -1,9 +1,12 @@
 interface ColorsConfig {
-  tabBarInactiveBackgroundColor: string;
-  tabBarActiveBackgroundColor: string;
-  tabBarActiveTintColor: string;
-
+  headerBackground: string;
+  headerTitle: string;
   headerIcon: string;
+
+  tabBarInactiveBackground: string;
+  tabBarActiveBackground: string;
+  tabBarActiveTint: string;
+
   screenBackground: string;
   textInputBorder: string;
   textInputBackground: string;
@@ -33,11 +36,14 @@ const tintColorDark = '#fff';
 
 const Colors: Colors = {
   light: {
-    tabBarInactiveBackgroundColor: 'white',
-    tabBarActiveBackgroundColor: 'white',
-    tabBarActiveTintColor: '#2f95dc',
-
+    headerBackground: 'white',
+    headerTitle: 'black',
     headerIcon: '#222222',
+
+    tabBarInactiveBackground: 'white',
+    tabBarActiveBackground: 'white',
+    tabBarActiveTint: '#2f95dc',
+
     screenBackground: 'white',
     textInputBorder: '#888888',
     textInputBackground: 'white',
@@ -59,11 +65,14 @@ const Colors: Colors = {
     etaListItemStarInactive: '#aaaaaaaa',
   },
   dark: {
-    tabBarInactiveBackgroundColor: 'white',
-    tabBarActiveBackgroundColor: 'white',
-    tabBarActiveTintColor: '#2f95dc',
-
+    headerBackground: 'white',
+    headerTitle: 'black',
     headerIcon: '#222222',
+
+    tabBarInactiveBackground: 'white',
+    tabBarActiveBackground: 'white',
+    tabBarActiveTint: '#2f95dc',
+
     screenBackground: 'black',
     textInputBorder: '#888888',
     textInputBackground: 'white',
