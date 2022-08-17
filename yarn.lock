@@ -7716,6 +7716,7 @@ __metadata:
     react-native-draggable-flatlist: ^3.1.2
     react-native-gesture-handler: ~2.2.1
     react-native-reanimated: ~2.8.0
+    react-native-root-toast: ^3.4.0
     react-native-safe-area-context: 4.2.4
     react-native-screens: ~3.11.1
     react-native-sortable-list: ^0.0.25
@@ -9772,6 +9773,26 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 6409a941a177d04d9091953a05f493d4924eb0d3e2a4b24cf83bb20460b985f89dd879f0ab7337655dba6a3183ca50cc2ad2b3ea1c505cdc1eed6c5ee1296b59
+  languageName: node
+  linkType: hard
+
+"react-native-root-siblings@npm:^4.0.0":
+  version: 4.1.1
+  resolution: "react-native-root-siblings@npm:4.1.1"
+  checksum: a4df9213be4864ec9ca5a99dd5e9218034a3cda66faa76b8910247a5e728d720df297f4dde811d83219adf370762a62948a8d954f8198bb3e4512e4dbc7dad00
+  languageName: node
+  linkType: hard
+
+"react-native-root-toast@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "react-native-root-toast@npm:3.4.0"
+  dependencies:
+    deprecated-react-native-prop-types: ^2.3.0
+    prop-types: ^15.5.10
+    react-native-root-siblings: ^4.0.0
+  peerDependencies:
+    react-native: ">=0.47.0"
+  checksum: 4bb1e61be07efcfa22d1e9352e860e0adb1b521f19511c44520994654da229eea9151ce3925e4e1811be9dee5e0df57a8e7d0bbbe15d548a5a12d24ac675b788
   languageName: node
   linkType: hard
 

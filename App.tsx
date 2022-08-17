@@ -3,6 +3,7 @@ import {StatusBar} from 'expo-status-bar';
 import {useEffect} from 'react';
 import {AppState, Platform} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {RootSiblingParent} from 'react-native-root-siblings';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
@@ -58,10 +59,12 @@ export default function App() {
     return (
       <QueryClientProvider client={queryClient}>
         <GestureHandlerRootView style={{flex: 1}}>
-          <SafeAreaProvider>
-            <Navigation colorScheme={colorScheme} />
-            <StatusBar />
-          </SafeAreaProvider>
+          <RootSiblingParent>
+            <SafeAreaProvider>
+              <Navigation colorScheme={colorScheme} />
+              <StatusBar />
+            </SafeAreaProvider>
+          </RootSiblingParent>
         </GestureHandlerRootView>
       </QueryClientProvider>
     );

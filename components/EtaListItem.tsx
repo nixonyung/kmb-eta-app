@@ -1,6 +1,7 @@
 import {FontAwesome} from '@expo/vector-icons';
 import _ from 'lodash';
 import {Text, TouchableOpacity, View} from 'react-native';
+import Toast from 'react-native-root-toast';
 import useDataStore from '../hooks/useDataStore';
 import useRouteAllStopNamesWithEtas from '../hooks/useRouteAllStopNamesWithEtas';
 import Route from '../schemas/Route';
@@ -69,8 +70,16 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
             <TouchableOpacity
               style={{flex: 1, paddingHorizontal: 30, justifyContent: 'center'}}
               onPress={() => {
+                if (!isFavorite) addFavoritestopIndexToRoute(index, route);
+                else
+                  Toast.show('Long press the start to remove the item from your favorites.', {
+                    duration: Toast.durations.SHORT,
+                    position: -75,
+                    shadow: false,
+                  });
+              }}
+              onLongPress={() => {
                 if (isFavorite) removeFavoritestopIndexToRoute(index, route);
-                else addFavoritestopIndexToRoute(index, route);
               }}
             >
               <FontAwesome
