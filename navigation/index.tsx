@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import {FontAwesome} from '@expo/vector-icons';
+import {Feather, FontAwesome} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
@@ -91,7 +91,7 @@ function BottomTabNavigator() {
           title: 'Routes',
           tabBarIcon: ({color}) => <TabBarIcon name="bus" color={color} />,
           headerRight: () => (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', marginRight: 15}}>
               <TouchableOpacity
                 onPress={async () => {
                   Toast.show(isDarkMode ? 'Disabling dark mode...' : 'Enabling dark mode...', {
@@ -101,23 +101,25 @@ function BottomTabNavigator() {
                   });
                   await toggleIsDarkMode();
                 }}
-                style={{marginRight: 25}}
+                style={{height: '100%', paddingHorizontal: 10}}
               >
-                <FontAwesome
-                  name={isDarkMode ? 'moon-o' : 'sun-o'}
+                <Feather
+                  name={isDarkMode ? 'moon' : 'sun'}
                   size={20}
                   color={ThemeColors.headerIcon}
                 />
               </TouchableOpacity>
+
+              <View style={{width: 5}} />
 
               <TouchableOpacity
                 onPress={() => {
                   loadRoutes();
                   loadRouteToFavoriteStopIndices();
                 }}
-                style={{marginRight: 25}}
+                style={{height: '100%', paddingHorizontal: 10}}
               >
-                <FontAwesome name="refresh" size={20} color={ThemeColors.headerIcon} />
+                <Feather name="refresh-cw" size={20} color={ThemeColors.headerIcon} />
               </TouchableOpacity>
             </View>
           ),
