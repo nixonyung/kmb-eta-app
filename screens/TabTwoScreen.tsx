@@ -30,7 +30,7 @@ export default function TabTwoScreen() {
           {[...routeToFavoriteStopIndices].flatMap(([route, indices]) =>
             indices.map(index => (
               <EtaListItem
-                key={`${route.route}_${route.service_type}_${route.bound}_{index}`}
+                key={`${route.route}_${route.service_type}_${route.bound}_${index}`}
                 index={index}
                 route={route}
                 routeNameShown

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import {Appearance} from 'react-native';
 import create from 'zustand';
 import Route from '../schemas/Route';
+import compareRouteNameOrder from '../utils';
 
 export interface StoreState {
   isDarkMode: boolean;
@@ -54,7 +55,8 @@ const useDataStore = create<StoreState>()(set => ({
       if (state.routes === undefined) return {};
 
       _(storedFavoriteKeys)
-        .sort((lhs, rhs) => lhs.localeCompare(rhs))
+        .sort((lhs, rhs) => compareRouteNameOrder(lhs, rhs))
+        // .sort((lhs, rhs) => lhs.localeCompare(rhs)
         .groupBy(s => s.slice(0, s.lastIndexOf('_')))
         .forEach((v, k) => {
           const [route, service_type, bound] = k.split('_').slice(1);

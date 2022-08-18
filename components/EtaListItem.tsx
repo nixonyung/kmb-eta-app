@@ -63,7 +63,16 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
             </Text>
 
             {_.isEmpty(stopNameWithEtas.eta) ? (
-              <Text style={{marginTop: 10, marginLeft: 30, fontSize: 18}}>暫沒有班次</Text>
+              <Text
+                style={{
+                  marginTop: 10,
+                  marginLeft: 30,
+                  fontSize: 18,
+                  color: ThemeColors.etaListItemText,
+                }}
+              >
+                暫沒有班次
+              </Text>
             ) : (
               stopNameWithEtas.eta.map((etaText, index) => (
                 <Text
