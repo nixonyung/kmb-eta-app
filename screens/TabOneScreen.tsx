@@ -51,6 +51,7 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
             backgroundColor: ThemeColors.textInputBorder,
           }}
           inputContainerStyle={{backgroundColor: ThemeColors.textInputBackground}}
+          inputStyle={{fontFamily: 'Montserrat_400Regular'}}
         />
 
         <View
@@ -86,16 +87,31 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
                     onPress={() => navigation.navigate('Modal', it)}
                     style={{
                       flex: 1,
+                      flexDirection: 'row',
                       paddingHorizontal: 20,
                       borderWidth: 1,
                       borderColor: ThemeColors.routeListItemBorder,
                       backgroundColor: ThemeColors.routeListItemBackground,
                     }}
                   >
-                    <Text style={{fontSize: 20, color: ThemeColors.routeListItemText}}>
-                      {it.route.padEnd(6, ' ')}
-                      {'\t'}
-                      &nbsp;往&nbsp;
+                    <Text
+                      style={{
+                        width: 75,
+                        fontSize: 20,
+                        fontFamily: 'Montserrat_400Regular',
+                        color: ThemeColors.routeListItemText,
+                      }}
+                    >
+                      {it.route}
+                    </Text>
+
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: ThemeColors.routeListItemText,
+                      }}
+                    >
+                      往&nbsp;
                       {it.dest_tc}
                       {it.service_type === '1' ? '' : '  (特別班)'}
                     </Text>

@@ -77,11 +77,15 @@ function BottomTabNavigator() {
           backgroundColor: ThemeColors.headerBackground,
         },
         headerTitleStyle: {
+          fontFamily: 'Montserrat_400Regular',
           color: ThemeColors.headerTitle,
         },
         tabBarActiveTintColor: ThemeColors.tabBarActiveTint,
         tabBarActiveBackgroundColor: ThemeColors.tabBarActiveBackground,
         tabBarInactiveBackgroundColor: ThemeColors.tabBarInactiveBackground,
+        tabBarLabelStyle: {
+          fontFamily: 'Montserrat_400Regular',
+        },
 
         headerRight: () => (
           <View style={{flexDirection: 'row', marginRight: 15}}>

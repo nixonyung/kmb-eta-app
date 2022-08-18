@@ -30,7 +30,7 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
   return (
     <View
       style={{
-        height: routeNameShown ? 130 : 100,
+        height: routeNameShown ? 150 : 100,
 
         flexDirection: 'row',
         paddingVertical: 5,
@@ -44,22 +44,48 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
         <>
           <View>
             {routeNameShown && (
-              <Text
+              <View
                 style={{
-                  marginVertical: 5,
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                  color: ThemeColors.etaListItemText,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: 'auto',
+                  height: 'auto',
+                  marginBottom: 10,
                 }}
               >
-                {`${route.route.padEnd(6, ' ')}\t 往 ${route.dest_tc} ${
-                  route.service_type === '1' ? '' : '  (特別班)'
-                }`}
-              </Text>
+                <Text
+                  style={{
+                    width: 60,
+                    fontSize: 18,
+                    fontFamily: 'Montserrat_400Regular',
+                    color: ThemeColors.etaListItemText,
+                  }}
+                >
+                  {route.route}
+                </Text>
+
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontFamily: 'Montserrat_400Regular',
+                    color: ThemeColors.etaListItemText,
+                  }}
+                >
+                  {`往 ${route.dest_tc} ${route.service_type === '1' ? '' : '  (特別班)'}`}
+                </Text>
+
+                <View style={{flex: 1}} />
+              </View>
             )}
 
-            <Text style={{fontSize: 18, color: ThemeColors.etaListItemText}}>
-              {index + 1}. {stopNameWithEtas.name_tc}
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: 'Montserrat_400Regular',
+                color: ThemeColors.etaListItemText,
+              }}
+            >
+              {stopNameWithEtas.name_tc}
             </Text>
 
             {_.isEmpty(stopNameWithEtas.eta) ? (
@@ -78,6 +104,7 @@ export default function EtaListItem({route, index, routeNameShown = false}: EtaL
                 <Text
                   style={{
                     marginLeft: 30,
+                    fontFamily: 'Montserrat_400Regular',
                     color:
                       etaText[0] === '-'
                         ? ThemeColors.etaListItemLateText

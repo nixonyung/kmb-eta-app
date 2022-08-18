@@ -1535,6 +1535,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@expo-google-fonts/montserrat@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@expo-google-fonts/montserrat@npm:0.2.2"
+  checksum: 7d7bbe8691042f40eccfd3327c17cd3f32f5edc4c2d20a80944deb7c8aa1c7afc1edec3e2a968af7d5778538815ebeb7542741d00bbdec169febe5c9d79e2319
+  languageName: node
+  linkType: hard
+
 "@expo/bunyan@npm:4.0.0, @expo/bunyan@npm:^4.0.0":
   version: 4.0.0
   resolution: "@expo/bunyan@npm:4.0.0"
@@ -7776,6 +7783,7 @@ __metadata:
   resolution: "kmb-eta-app@workspace:."
   dependencies:
     "@babel/core": ^7.12.9
+    "@expo-google-fonts/montserrat": ^0.2.2
     "@expo/vector-icons": ^13.0.0
     "@react-native-async-storage/async-storage": ^1.17.9
     "@react-navigation/bottom-tabs": ^6.0.5

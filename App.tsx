@@ -1,4 +1,6 @@
+import {Montserrat_400Regular} from '@expo-google-fonts/montserrat';
 import {focusManager, QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {useFonts} from 'expo-font';
 import {StatusBar} from 'expo-status-bar';
 import {useEffect} from 'react';
 import {AppState, Platform} from 'react-native';
@@ -35,6 +37,12 @@ export default function App() {
     state => state.loadRouteToFavoriteStopIndices
   );
 
+  // load fonts
+  const [fontsLoaded] = useFonts({
+    Montserrat_400Regular,
+  });
+
+  // init data store
   useEffect(() => {
     (async function () {
       await loadIsDarkMode();
@@ -54,7 +62,7 @@ export default function App() {
     return () => subscription.remove();
   }, []);
 
-  if (!isLoadingComplete) {
+  if (!isLoadingComplete || !fontsLoaded) {
     return null;
   } else {
     return (
