@@ -7828,6 +7828,7 @@ __metadata:
     react-native-spring-scrollview: ^4.0.0-dev-0
     react-native-swipeable-item: ^2.0.7
     react-native-web: 0.17.7
+    react-navigation-tabbar-collection: ^1.0.0
     react-test-renderer: 17.0.2
     recyclerlistview: ^4.1.3
     typescript: ~4.3.5
@@ -10046,6 +10047,19 @@ __metadata:
   bin:
     react-native: cli.js
   checksum: a595e7c284041d0ea6439f476d4e34239212f6ca7863321d214494ac938c83a89ae8b79f86bda7c515be727ffec7403456f8f721fca7f8670cf1fa9bf19b0b1d
+  languageName: node
+  linkType: hard
+
+"react-navigation-tabbar-collection@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "react-navigation-tabbar-collection@npm:1.0.0"
+  peerDependencies:
+    "@react-navigation/bottom-tabs": ">=5.0.0"
+    "@react-navigation/native": ">=5.0.0"
+    react: "*"
+    react-native: "*"
+    react-native-safe-area-context: "*"
+  checksum: 5ca54ce90a984cc1ee362acba2d99e541c395df0d0a797b8304ad7eea305c6bc9e464ce2b099308f29873fac7322738c8411a6de844a14ee835c2687b25fd644
   languageName: node
   linkType: hard
 

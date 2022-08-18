@@ -7,6 +7,7 @@ import {Feather, FontAwesome} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
+import {ColorfulTabBar} from 'react-navigation-tabbar-collection';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {TouchableOpacity, View} from 'react-native';
@@ -72,17 +73,35 @@ function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
+      tabBar={({state, descriptors, navigation}) => (
+        <ColorfulTabBar
+          state={state}
+          navigation={navigation}
+          descriptors={descriptors as any}
+          maxWidth={600}
+          height={55}
+          darkMode={isDarkMode}
+          colorPalette={{
+            primary: ThemeColors.tabBarActiveTint,
+            secondary: '#6c757d',
+            success: '#198754',
+            danger: '#c9379d',
+            warning: '#e6a919',
+            info: '#00bcd4',
+            light: ThemeColors.tabBarBackground, //Background Color
+            dark: ThemeColors.hint, //Foreground Color
+          }}
+        />
+      )}
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerStyle: {
           backgroundColor: ThemeColors.headerBackground,
         },
         headerTitleStyle: {
-          fontFamily: 'Montserrat_400Regular',
+          fontFamily: 'Montserrat_700Bold',
           color: ThemeColors.headerTitle,
         },
-        tabBarActiveTintColor: ThemeColors.tabBarActiveTint,
-        tabBarActiveBackgroundColor: ThemeColors.tabBarActiveBackground,
-        tabBarInactiveBackgroundColor: ThemeColors.tabBarInactiveBackground,
         tabBarLabelStyle: {
           fontFamily: 'Montserrat_400Regular',
         },
@@ -130,6 +149,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({color}) => <TabBarIcon name="bus" color={color} />,
         })}
       />
+
       <BottomTab.Screen
         name="TabTwo"
         component={TabTwoScreen}

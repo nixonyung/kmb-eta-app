@@ -26,8 +26,7 @@ interface ColorsConfig {
   headerTitle: string;
   headerIcon: string;
 
-  tabBarInactiveBackground: string;
-  tabBarActiveBackground: string;
+  tabBarBackground: string;
   tabBarActiveTint: string;
 
   screenBackground: string;
@@ -65,8 +64,7 @@ const Colors: Colors = {
     headerTitle: textLight,
     headerIcon: textLight,
 
-    tabBarInactiveBackground: secondaryLight,
-    tabBarActiveBackground: secondaryLight,
+    tabBarBackground: secondaryLight,
     tabBarActiveTint,
 
     screenBackground: primaryLight,
@@ -98,8 +96,7 @@ const Colors: Colors = {
     headerTitle: textDark,
     headerIcon: textDark,
 
-    tabBarInactiveBackground: secondaryDark,
-    tabBarActiveBackground: secondaryDark,
+    tabBarBackground: secondaryDark,
     tabBarActiveTint,
 
     screenBackground: primaryDark,

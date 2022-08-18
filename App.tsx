@@ -1,4 +1,4 @@
-import {Montserrat_400Regular} from '@expo-google-fonts/montserrat';
+import {Montserrat_400Regular, Montserrat_700Bold} from '@expo-google-fonts/montserrat';
 import {focusManager, QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {useFonts} from 'expo-font';
 import {StatusBar} from 'expo-status-bar';
@@ -40,6 +40,7 @@ export default function App() {
   // load fonts
   const [fontsLoaded] = useFonts({
     Montserrat_400Regular,
+    Montserrat_700Bold,
   });
 
   // init data store
