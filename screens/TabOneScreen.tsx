@@ -42,10 +42,12 @@ export default function TabOneScreen({navigation}: RootTabScreenProps<'TabOne'>)
           onChangeText={setSearchText}
           placeholder="請輸入路線..."
           lightTheme
+          round
           containerStyle={{
             marginHorizontal: 20,
             marginBottom: 30,
             padding: 3,
+            borderRadius: 18,
             backgroundColor: ThemeColors.textInputBorder,
           }}
           inputContainerStyle={{backgroundColor: ThemeColors.textInputBackground}}
